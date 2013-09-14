@@ -1,0 +1,17 @@
+ |-core
+ |---controllers
+ |-----helpers
+ |---data
+ |-----audit
+ |-----constants
+ |-----db
+ |-----export
+ |-----knowledge-base
+ |-----user-agent
+ |-doc
+ |---articles
+ |---structure
+ |-locales
+ |---en
+ |---pt-br
+ |-webapp

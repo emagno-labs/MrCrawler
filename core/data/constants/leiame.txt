@@ -1,0 +1,1 @@
+Nesta pasta devem ser declaradas todas as constantes necessarias para a execucao do sistema.

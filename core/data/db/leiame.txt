@@ -1,0 +1,1 @@
+Neste diretório devem ser criados todas as funcionalidades necessárias para acesso e manipulação de dados armazenados em banco de dados

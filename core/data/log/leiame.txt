@@ -1,0 +1,1 @@
+Nesta pasta devem ser criadas todas as funcionalidades necessárias para registro de auditoria (log/rastreabilidade) do sistema
