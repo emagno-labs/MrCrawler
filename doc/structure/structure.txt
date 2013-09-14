@@ -1,17 +1,56 @@
+ |---branches
+ |---hooks
+ |---info
+ |---objects
+ |-----02
+ |-----0b
+ |-----11
+ |-----20
+ |-----23
+ |-----2a
+ |-----65
+ |-----69
+ |-----71
+ |-----7b
+ |-----82
+ |-----ba
+ |-----bb
+ |-----ca
+ |-----d2
+ |-----e6
+ |-----info
+ |-----pack
+ |---refs
+ |-----heads
+ |-----tags
  |-core
+ |---api
+ |-----auth
+ |-----data-visualization
+ |-----persistence
+ |-----web-scanner
  |---controllers
+ |-----audit
+ |-----crawl
+ |-----grep
  |-----helpers
  |---data
- |-----audit
  |-----constants
  |-----db
- |-----export
- |-----knowledge-base
+ |-----dbms
+ |-----log
  |-----user-agent
  |-doc
  |---articles
+ |---guides
  |---structure
  |-locales
  |---en
  |---pt-br
  |-webapp
+ |---static
+ |-----css
+ |-----ico
+ |-----img
+ |-----js
+ |---templates
