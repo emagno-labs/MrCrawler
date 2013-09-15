@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Início</h2>
+{% if error %}<p class=error><strong>Erro:</strong> {{ error }}{% endif %}
+<form action="{{ url_for('index') }}" method=post>
+   <dl>
+      <dt>Url:
+      <dd><input type=text name=url>
+      <dt>Palavra:
+      <dt><input type=text name=word>
+      <dd><input type=submit value=Crawlear>
+   </dl>
+</form>
+{% endblock %}
