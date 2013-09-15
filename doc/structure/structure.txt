@@ -15,6 +15,13 @@
  |-----dbms
  |-----log
  |-----user-agent
+ |---web
+ |-----static
+ |-------css
+ |-------ico
+ |-------img
+ |-------js
+ |-----templates
  |-doc
  |---articles
  |---guides
@@ -22,10 +29,3 @@
  |-locales
  |---en
  |---pt-br
- |-webapp
- |---static
- |-----css
- |-----ico
- |-----img
- |-----js
- |---templates
