@@ -1,0 +1,154 @@
+\documentclass[twocolumn,showpacs,%
+  nofootinbib,aps,superscriptaddress,%
+  eqsecnum,prd,notitlepage,showkeys,10pt]{revtex4-1}
+
+\usepackage[brazil]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{dcolumn}
+\usepackage{hyperref}
+
+\begin{document}
+
+\def\acknowledgmentsname{Agradecimentos}
+\def\andname{e}
+\def\indexname{Indíce}
+\def\figuresname{Figuras}%
+\def\tablename{TABELA}
+\def\tablesname{Tabelas}%
+
+\title{MR. CRAWLER: Auditoria de Vulnerabilidades de Aplicações Web}
+\author{Eryckson Magno}
+\affiliation{4º Período Bacharelado em Ciências da Computação (BCC) - Senac SP}
+\author{Hamilton Santana}
+\affiliation{4º Período Bacharelado em Ciências da Computação (BCC) - Senac SP}
+\author{Ivan Probst}
+\affiliation{4º Período Bacharelado em Ciências da Computação (BCC) - Senac SP}
+\author{Lucas M. Ribeiro}
+\affiliation{4º Período Bacharelado em Ciências da Computação (BCC) - Senac SP}
+
+%\begin{abstract}
+%em branco \dots
+%\end{abstract}
+
+\maketitle
+
+\section{Introdução}
+\label{sec:introducao}
+
+É comum o uso de testes automatizados para averiguar o fator de segurança de aplicações web, ou seja, verificar sistematicamente vulnerabilidades nas mesmas.
+
+As ferramentas que realizam esta tarefa são conhecidas como \emph{Web Application Security Scanners} (Scanners de Segurança de Aplicações Web). Para isto comumente são seguidas três etapas essenciais: 1) A ferramenta "varre" (\emph{crawl}) a aplicação web para relacionar todas as URLs e vetores de entrada, 2) Valores especiais para testes são submetidos para a aplicação web e 3) o scanner verifica os retornos recebidos procurando por evidências de vulnerabilidades.
+
+Isto posto fica evidente a importância da sub-ferramenta que realiza a "varredura" (\emph{crawling}) da aplicação web. Tais sub-ferramentas (ou sub-sistemas), são conhecidos como \emph{Web Crawlers} (também como \emph{spiders} ou \emph{robots}) e representam um dos grandes desafios (se não o maior) de uma ferramenta de testes de segurança automatizados.
+
+\subsection{Objetivo do Trabalho}
+
+Este trabalho tem como objetivo apresentar uma ferramenta que analisa uma aplicação web e avalia seu grau de segurança (ou percentual de vulnerabilidade) fornecendo o resultado em uma visualização categorizada.
+
+A ferramenta, nomeada \emph{MR. CRAWLER} no restante deste documento, é uma aplicação baseada em web (\emph{web-based application}) com código do lado servidor baseado em Python.
+
+Suas funcionalidades podem ser sumarizadas em:
+
+\begin{itemize}
+\item Permitir ao usuário fornecer o endereço de um web site a ser analisado,
+\item Processar a análise em três etapas: coleta (\emph{crawling}), avaliação (testes) e exibição de resultados e,
+\item Permitir ao usuário que configure e compartilhe os tipos de visões sobre a análise realizada e os dados coletados: alterar agrupamentos e classificações, realizar \emph{drill-downs} e \emph{dril-ups} e exportar os dados.
+\end{itemize}
+
+Deve ser considerado o fato que ferramentas de análise automatizadas representam um certo grau de risco para aplicações web pois dependendo do tipo de análise que será realizado e da \emph{saúde} da aplicação a ser analisada, podem ser registrados cenários não desejados, chegando até ao extremo negativo de indisponibilizar a aplicação.
+
+Devido a estes fatores o MR. CRAWLER dispõe de mecanismos que impedem que a análise realizada cause efeitos negativos no alvo:
+
+\begin{itemize}
+\item Limite de profundidade (links) de varredura,
+\item Controle de tempo entre requisições,
+\item Respeito a arquivos de exclusão (\emph{robots.txt}) e,
+\item Não realização de \emph{stress tests} ou \emph{brute force}.
+\end{itemize}
+
+Porém tais mecanismos, quando acionados, irão eventualmente afetar a qualidade da análise. Assim sendo, em casos que se faça necessário o acionamento deste dispositivo, na apresentação de resultados o mesmo será evidenciado.
+
+\subsection{Estado da Arte}
+
+Segurança é um assunto que inevitavelmente fica em segundo plano em aplicações, em especial as voltadas para o mundo Web.
+
+Em um ramo ditado pelas especificações funcionais e as regras de negócio, os \emph{donos} de projetos web quase sempre negligenciam ao aspecto \emph{segurança} em suas soluções e os desenvolvedores, pressionados e com pouco tempo para realizar as entregas, acabam seguindo o mesmo caminho.
+
+Todavia, mesmo neste cenário desfavorável a concientização da indústria, do mercado e dos negócios sobre a importância da segurança cresce dia após dia (talvez, em parte, devido aos impactos negativos, e que geram prejuízos, de vazamentos e falhas de segurança apresentados pela mídia nos últimos tempos).
+
+Atualmente encontram-se disponíveis no mercado várias ferramentas que, em diferentes níveis de especialização, confiabilidade e formato de distribuição (free, open-source ou comerciais), executam as tarefas de análise de segurança de aplicações web.
+
+Diversos estudos avaliam e comparam os resultados destas ferramentas e um em especial \cite{metwas} relacionou outros estudos em uma análise comparativa.
+ 
+
+%\subsubsection{\emph{Scanners} de Aplicações Web e sua evolução}
+
+%\subsubsection{\emph{Web Crawlers} e como se relacionam com as vulnerabilidades}
+
+%\subsubsection{Tendências Futuras}
+
+
+
+
+\subsection{Vulnerabilidades de Aplicações Web}
+
+em branco \dots
+
+\subsubsection{Detecção de vulnerabilidades}
+
+em branco \dots
+
+\subsubsection{Desafios e Espectativas}
+
+em branco \dots
+
+\section{Desenvolvimento}
+\label{sec:desenv}
+
+em branco \dots
+
+\subsection{Estratégias para auditoria}
+
+em branco \dots
+
+\subsubsection{Estratégias \emph{white-box}}
+
+em branco \dots
+
+\subsubsection{Estratégias \emph{black-box}}
+
+em branco \dots
+
+\section{Resultados}
+\label{sec:resultados}
+
+em branco \dots
+
+\section{Conclusão}
+\label{sec:conclusao}
+
+em branco \dots
+
+
+\begin{acknowledgments}
+
+Os autores gostariam de agradecer:\cite{owasp2013} \dots
+
+\end{acknowledgments}
+
+\begin{thebibliography}{99}
+
+\bibitem{owasp2013}
+  \emph{The Open Web Application Security Project (OWASP)}
+  http://www.owasp.org
+
+\bibitem{metwas}
+  MUÑOZ, Fernando Román, VILLALBA, Luis Javier García, METHODS TO TEST WEB APPLICATION SCANNERS
+  
+  
+\end{thebibliography}
+
+\end{document}
