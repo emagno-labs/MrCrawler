@@ -1,13 +1,6 @@
-from flask import Flask, request, session, redirect, url_for, abort, render_template, flash, send_from_directory
-from cherrypy import wsgiserver
-
-# configuration
-USERNAME = 'admin'
-PASSWORD = 'default'
-
-# criando a aplicacao
-app = Flask(__name__)
-app.config.from_object(__name__)
+from core.web import app
+from flask import request, session, g, redirect, url_for, abort, render_template, flash, send_from_directory
+import os
 
 # web methods
 @app.route('/busca', methods=['GET', 'POST'])
@@ -19,6 +12,7 @@ def busca():
 
 @app.route('/')
 def index():
+   session['teste'] = 'teste'
    return render_template('index.html')
 
 @app.route('/do_crawl', methods=['GET', 'POST'])
@@ -47,10 +41,9 @@ def login():
       elif request.form['password'] != app.config['PASSWORD']:
          error = 'Credenciais inválidas'
       else:
-         #session['logged_in'] = True
-         return render_template('index.html', error=error)
-         #flash('Você está autenticado :)')
-         #return redirect(url_for('do_crawl'))
+         session['logged_in'] = True
+         flash('Você está autenticado :)')
+         return redirect(url_for('do_crawl'))
    return render_template('login.html', error=error)
 
 @app.route('/logout')
@@ -66,15 +59,3 @@ def favicon():
 @app.errorhandler(404)
 def page_not_found(e):
    return render_template('404.html'), 404
-
-# o web server (WSGI)
-d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
-server = wsgiserver.CherryPyWSGIServer(('0.0.0.0', 8080), d)
-
-# iniciando a aplicacao
-if __name__ == '__main__':
-   try:
-      server.start()
-   except KeyboardInterrupt:
-      server.stop()
-
