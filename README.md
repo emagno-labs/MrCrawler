@@ -22,6 +22,37 @@ Planos e ideias
 * Busca e interpretação de *site maps* para aumentar a superfície de análise;
 * E mais: *cross domain js*, *code disclosure*, *blank body*, *dot net event validation*, *http in body*...
 
+Rodando o Mr. Crawler
+----------------------
+
+Faça um clone do Mr. Crawler:
+
+```
+https://github.com/eryckson/MrCrawler.git
+```
+
+Para rodar o Mr. Crawler localmente é necessário ter o Python na versão 3.3.2 e também os seguintes frameworks:
+
+```
+pip install Flask
+pip install CherryPy
+pip install beautifulsoup4
+pip install html5lib
+pip install lxml
+```
+
+Depois basta:
+
+```
+python MrCrawler.py
+```
+
+e ele estará respondendo em
+
+```
+http://localhost:8080
+```
+
 ----------------------
 
 > SE EM TUDO O MAIS FOREM IDÊNTICAS AS VÁRIAS EXPLICAÇÕES DE UM FENÔMENO, A MAIS SIMPLES É A MELHOR" — WILLIAM DE OCKHAM
