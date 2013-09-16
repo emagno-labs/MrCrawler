@@ -1,14 +1,11 @@
-# importando móduo de manipulacao da app web
-from web.app import app, server
+'''
+Este módulo é responsável por iniciar o web server da aplicação web do Mr. Crawler
+(pode ser considerado como o "main.py" do projeto)
+'''
 
-# importando módulo de manipulacao da base de dados
-from core.data.dbms import database
+from web.app import server
 
 if __name__ == '__main__':
-   # rodando a app com o Flask atuando como servidor web
-   #app.run(debug=True)
-
-   # rodando a app com o CherryPy atuando como servidor web
    try:
       server.start()
    except KeyboardInterrupt:

@@ -53,6 +53,10 @@ e ele estará respondendo em
 http://localhost:8080
 ```
 
+Mais em Python
+----------------------
+* [Learn Python](http://docs.python-guide.org/en/latest/intro/learning/)
+
 ----------------------
 
 > SE EM TUDO O MAIS FOREM IDÊNTICAS AS VÁRIAS EXPLICAÇÕES DE UM FENÔMENO, A MAIS SIMPLES É A MELHOR" — WILLIAM DE OCKHAM
