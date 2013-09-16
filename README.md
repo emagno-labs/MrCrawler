@@ -28,14 +28,14 @@ Rodando o Mr. Crawler
 Faça um clone do Mr. Crawler:
 
 ```
-https://github.com/eryckson/MrCrawler.git
+git clone https://github.com/eryckson/MrCrawler.git
 ```
 
 Para rodar o Mr. Crawler localmente é necessário ter o Python na versão 3.3.2 e também os seguintes frameworks:
 
 ```
 pip install Flask
-pip install CherryPy
+pip install tornado
 pip install beautifulsoup4
 pip install html5lib
 pip install lxml
@@ -44,7 +44,7 @@ pip install lxml
 Depois basta:
 
 ```
-python MrCrawler.py
+python MrCrawler.py --logging=debug
 ```
 
 e ele estará respondendo em
