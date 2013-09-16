@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 # importando as views
-import core.web.views
+import web.app.views
 
 # preparando o servidor web (WSGI)
 d = wsgiserver.WSGIPathInfoDispatcher({'/': app})

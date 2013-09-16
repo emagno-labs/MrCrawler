@@ -1,0 +1,2 @@
+Pacote core.data.constants
+============================

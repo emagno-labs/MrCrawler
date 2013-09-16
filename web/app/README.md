@@ -1,4 +1,4 @@
-Pacote *Core.Web*
+Pacote web.app
 ============================
 
 A camada web do **Mr. Crawler** está baseada no [Flask](http://flask.pocoo.org).

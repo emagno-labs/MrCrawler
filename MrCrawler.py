@@ -1,5 +1,5 @@
 # importando móduo de manipulacao da app web
-from core.web import app, server
+from web.app import app, server
 
 # importando módulo de manipulacao da base de dados
 from core.data.dbms import database

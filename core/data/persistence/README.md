@@ -1,0 +1,3 @@
+Pacote core.data.persistence
+============================
+

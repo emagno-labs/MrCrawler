@@ -1,4 +1,4 @@
-from core.web import app
+from web.app import app
 from flask import request, session, g, redirect, url_for, abort, render_template, flash, send_from_directory
 import os
 
