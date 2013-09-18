@@ -7,7 +7,7 @@ moduleauthor:: Eryckson Magno <eryckson@me.com>
 
 from urllib import parse
 from urllib.request import urlopen
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Comment
 from core.exceptions.crawl_exceptions import *
 
 class Crawl(object):
@@ -91,20 +91,14 @@ class Crawl(object):
          raise
 
    def getComments(self):
-      pass
+      '''
+      Este método localiza todos os comentários do código.
 
+      :return: uma lista com os comentários
+      '''
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      try:
+         comments = self._soup.find_all(text=lambda text:isinstance(text, Comment))
+         return comments
+      except:
+         raise
