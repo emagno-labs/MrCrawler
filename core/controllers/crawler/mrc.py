@@ -1,104 +1,66 @@
 '''
-Este módulo é responsável por realizar a coleta das informações (crawl) de um site.
-Os dados coletados serão armazenados para que seja realizadas análises e auditorias.
+Este módulo é responsável por realizar o "spider" de uma url.
+Ele irá, a partir da url inicial, listar todas as urls (links) desta e repetir o processo até atingir os limites estabelecidos.
 
 moduleauthor:: Eryckson Magno <eryckson@me.com>
 '''
 
-from urllib import parse
-from urllib.request import urlopen
-from bs4 import BeautifulSoup, Comment
+from core.controllers.crawler.crawlurl import CrawlUrl 
+from core.controllers.crawler.page import Page
 from core.exceptions.crawl_exceptions import *
 
-class Crawl(object):
+# FIXME remover o "mock" de localizar a palavra
+def spider(url, word, maxPages):
+   '''
+   Este método é o principal deste módulo e "visita" url a url até atingir os limites estabelecidos.
+   '''
 
-   def __init__(self, url):
-      self._url = url
-      self._soup = None
+   visitedPages = []
+   pagesToVisit = [url]
+   numberVisited = 0
+   foundWord = False
 
-   def makeTheSoup(self):
-      '''
-      Este método "le" uma url e a transforma no objeto "parseado" pelo  bs4
-      '''
+   while numberVisited < maxPages and pagesToVisit != [] and not foundWord:
+      url = pagesToVisit[0]
+      pagesToVisit = pagesToVisit[1:]
 
-      if self._url is None:
-         raise InvalidArgumentError('Dados insuficientes para efetuar a coleta de informações.', ('url'))
+      if url in visitedPages:
+         print(numberVisited, 'Visitado!', url)
+         # pass
+      else:
+         numberVisited = numberVisited + 1
 
-      try:
-         # abrindo a url e obtendo a resposta 
-         response = urlopen(self._url)
+         try:
+            print(numberVisited, "Visiting: ", url)
+            
+            visitedPages = visitedPages + [url]
+            
+            parser = CrawlUrl(url)
+            page = parser.makeTheSoup()
 
-         # fazendo a "sopa" do retorno utilizando o lxml como parser
-         self._soup = BeautifulSoup(response.read(), "lxml")
-      except:
-         raise MakeTheSoupError(self._url, "lxml")
+            data = page.text
+            links = page.links
 
-   def getMarkup(self):
-      '''
-      Este método retorna o HTML (markup) da página.
-      
-      :param soup: o objeto bs4 com a página "parseada"
-      :return: text -- o markup, ou "None" caso não houver
-      '''
-      
-      try:
-         return self._soup.prettify()
-      except:
-         raise
+            if data.find(word) > -1:
+               foundWord = True
 
-   def getText(self):
-      '''
-      Este método retorna todo (e somente) o texto da página (útil para pesquisa de conteúdo, estimativa de ocorrência de palavras, etc)
-      
-      :param soup: o objeto bs4 com a página "parseada"
-      :return: text -- todo o texto
-      '''
-      
-      try:
-         return self._soup.get_text()
-      except:
-         raise
+            pagesToVisit = pagesToVisit + links
+            print('*** Sucesso! ***')
+         except MakeTheSoupError as mse:
+            print("*** Falha! Não foi possível realizar o parse da url '%s'" % url)
+         except KeyboardInterrupt:
+            print("*** Falha! Crawl finalizado pelo usuário! ***")
+            break
+         except:
+            # print('*** Falhou! ***')
+            traceback.print_exc()
 
-   def getLinks(self):
-      '''
-      Este método localiza e separa todos os links de uma página.
+   if foundWord:
+      result = 'A palavra ' + word + ' foi encontrada em ' + url
+      print(result)
+      return result
+   else:
+      result = 'A palavra não foi encontrada!'
+      print(result)
+      return result
 
-      :return: uma lista com os links recuperados
-      '''
-      
-      try:
-         links = []
-
-         for l in self._soup.find_all('a'):
-            value = l.get('href')
-            newUrl = parse.urljoin(self._url, value)
-            links = links + [newUrl]
-
-         return links
-      except:
-         raise
-
-   def getScripts(self):
-      '''
-      Este método localiza e retorna os scripts da página.
-      
-      :return: uma lista com os scripts localizados
-      '''
-      
-      try:
-         return self._soup.find_all('script')
-      except:
-         raise
-
-   def getComments(self):
-      '''
-      Este método localiza todos os comentários do código.
-
-      :return: uma lista com os comentários
-      '''
-
-      try:
-         comments = self._soup.find_all(text=lambda text:isinstance(text, Comment))
-         return comments
-      except:
-         raise
