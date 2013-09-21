@@ -5,6 +5,6 @@ Este pacote é responsável por encapsular todo o código e lógica necessárias
 --------------------
 * **constants**: neste pacote estarão centralizadas todas as definições e dados *constantes* (imutáveis) do projeto.
 * **db**: a base de dados.
-* **dbms**: relacionamento/manipulação com a base de dados.
+* **orm**: relacionamento/manipulação com a base de dados.
 * **log**: controle de auditoria da aplicação.
 * **persistence**: camada que encapsulará a manipulação direta do pacote *core.data.dbms*
