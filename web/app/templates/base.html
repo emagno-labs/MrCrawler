@@ -62,6 +62,7 @@
          <ul class="nav navbar-nav navbar-right">
             {% if not session.logged_in %}
             <li><a href="{{ url_for('login') }}">Entrar</a></li>
+            <li><a href="{{ url_for('register') }}">Registrar</a></li>
             {% else %}
             <li><a href="{{ url_for('logout') }}">Sair</a></li>
             {% endif %}

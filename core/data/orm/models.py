@@ -1,10 +1,18 @@
-from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey
+'''
+Este módulo é responsável pela definição e implementação do modelo de dados.
+A partir do modo declarativo do sqlalchemy cada classe representa uma tabela no banco de dados mapeada (ORM).
+'''
+
+from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Boolean
 from core.data.orm.database import Base
 from sqlalchemy.orm import relationship, backref
-
 from datetime import datetime
 
 class User(Base):
+   '''
+   Esta classe define um usuário do sistema
+   '''
+
    __tablename__ = 'users'
    
    id = Column(Integer, primary_key=True)
@@ -14,7 +22,8 @@ class User(Base):
    created = Column(DateTime, default=datetime.now)
    pwd = Column(String(200))
 
-   def __init__(self, name=None, email=None, pwd=None):
+   def __init__(self, login=None, name=None, email=None, pwd=None):
+      self.login = login
       self.name = name
       self.email = email
       self.pwd = pwd
@@ -23,6 +32,11 @@ class User(Base):
       return '<User %r>' % (self.name)
 
 class Analyze(Base):
+   '''
+   Esta classe define uma análise a uma url alvo (target_url).
+   Um usuário realiza uma análise que pode ter várias páginas analisadas.
+   '''
+
    __tablename__ = 'analyzes'
 
    id = Column(Integer, primary_key=True)
@@ -36,6 +50,11 @@ class Analyze(Base):
    user = relationship("User", backref=backref('analyzes', order_by=id))
 
 class Page(Base):
+   '''
+   Esta classe define uma página que foi analisada.
+   Uma página pode possuir links (outras páginas) poderão também ser analisados.
+   '''
+
    __tablename__ = 'pages'
 
    id = Column(Integer, primary_key=True)
@@ -63,6 +82,10 @@ class Page(Base):
       return '<Page %r>' % (self.url)
 
 class Script(Base):
+   '''
+   Esta classe define um script (tag script) encontrada em uma página.
+   '''
+
    __tablename__ = 'scripts'
 
    id = Column(Integer, primary_key=True)
@@ -77,6 +100,10 @@ class Script(Base):
    page = relationship("Page", backref=backref('scripts', order_by=id)) 
 
 class Comment(Base):
+   '''
+   Esta classe define um comentário encontrado em uma página.
+   '''
+
    __tablename__ = 'comments'
 
    id = Column(Integer, primary_key=True)
@@ -87,3 +114,35 @@ class Comment(Base):
 
    # many-to-one relationships
    page = relationship("Page", backref=backref('comments', order_by=id))
+
+class Vulnerability(Base):
+   '''
+   Esta classe define as diferentes vulnerabilidades que uma página (e seus componentes) podem possuir.
+   '''
+
+   __tablename__ = 'vulnerabilities'
+
+   id = Column(Integer, primary_key=True)
+   name = Column(String(100))
+   description = Column(Text)
+
+class PageVulnerability(Base):
+   '''
+   Esta classe define as vulnerabilidades que foram localizadas em uma página analisada.
+   '''
+
+   __tablename__ = 'page_vulnerabilities'
+
+   id = Column(Integer, primary_key=True)
+   created = Column(DateTime, default=datetime.now)
+   is_critical = Column(Boolean)
+   text = Column(Text)
+   
+   # foreign keys
+   page_id = Column(Integer, ForeignKey('pages.id'))
+   vuln_id = Column(Integer, ForeignKey('vulnerabilities.id'))
+
+   # many-to-one relationships
+   page = relationship('Page', backref=backref('pageanalyzes', order_by=id))
+   vuln = relationship('Vulnerability', backref=backref('pageanalyzes', order_by=id))
+

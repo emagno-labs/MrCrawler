@@ -1,6 +1,14 @@
 from web.app import app
 from flask import request, session, g, redirect, url_for, abort, render_template, flash, send_from_directory
 import os
+from wtforms import Form, BooleanField, TextField, PasswordField, validators
+from wtforms.validators import ValidationError
+from core.data.orm.database import db_session
+from core.data.orm.models import User
+
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+       db_session.remove()
 
 # web methods
 @app.route('/busca', methods=['GET', 'POST'])
@@ -52,6 +60,25 @@ def logout():
    flash('Você saiu :(')
    return redirect(url_for('index'))
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+   '''
+   Este método obtém os dados do formulário e realiza o registro do usuário.
+   '''
+   
+   form = RegistrationForm(request.form)
+
+   if request.method == 'POST' and form.validate():
+      user = User(form.login.data, form.name.data, form.email.data, form.password.data)
+      db_session.add(user)
+      db_session.commit()
+      
+      flash('Thanks for registering')
+      session['logged_in'] = True
+      return redirect(url_for('do_crawl'))
+
+   return render_template('register.html', form=form)
+
 @app.route('/favicon.ico')
 def favicon():
    return send_from_directory(os.path.join(app.root_path, 'static'), 'ico/favicon.ico')
@@ -59,3 +86,25 @@ def favicon():
 @app.errorhandler(404)
 def page_not_found(e):
    return render_template('404.html'), 404
+
+#FIXME extrair estas informações para módulos próprios
+# exemplo de validação customizada no WTForms...
+def isEmail(form, field):
+   # FIXME implementar validação de email
+   if field.data != "eryckson@gmail.com":
+      raise ValidationError("O e-mail deve ser 'eryckson@gmail.com'")
+
+class RegistrationForm(Form):
+   # TODO implementar mais validações, como disponibilidade de login
+   login = TextField('Login', [validators.Length(min=4, max=25, message=('O tamanho deve ser entre %(min)d e %(max)d caracteres.'))])
+   name = TextField('Nome', [validators.Length(min=4, max=50, message=('O tamanho deve ser entre %(min)d e %(max)d caracteres.'))]) 
+   email = TextField('Email', [
+      validators.Length(min=6, max=35, message=('O tamanho deve ser entre %(min)d e %(max)d caracteres.')),
+      isEmail
+   ])
+   password = PasswordField('Senha', [
+      validators.Required(message=('Este campo é obrigatório')),
+      validators.EqualTo('confirm', message='As senhas devem ser iguais')
+   ])
+   confirm = PasswordField('Repita a senha')
+

@@ -1,4 +1,4 @@
-Pacote core.controllers
+Pacote core.features
 =======================
 
 O *coração* do **Mr. Crawler**.
