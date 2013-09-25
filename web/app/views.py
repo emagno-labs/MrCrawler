@@ -1,11 +1,9 @@
 from web.app import app
 from flask import request, session, g, redirect, url_for, abort, render_template, flash, send_from_directory
 import os
-from wtforms import Form, BooleanField, TextField, PasswordField, validators
-from wtforms.validators import ValidationError
 from core.data.orm.database import db_session
 from core.data.orm.models import User
-import re
+from web.app.forms.auth import RegistrationForm
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
@@ -90,48 +88,3 @@ def favicon():
 @app.errorhandler(404)
 def page_not_found(e):
    return render_template('404.html'), 404
-
-# FIXME extrair estas informações para módulos próprios
-# exemplo de validação customizada no WTForms...
-def isEmail(form, field):
-   if not re.match(r"^[a-zA-Z0-9._%-]+@[a-zA-Z0-9._%-]+.[a-zA-Z]{2,6}$", field.data):
-      raise ValidationError("O e-mail informado é inválido.")
-
-   u = User.query.filter(User.email == field.data).first()
-   if u is not None:
-      raise ValidationError('O e-mail informado já está em uso.')
-
-def isStrongPassword(form, field):
-   login = field.data
-   if len(re.findall(r"[A-Z]", login)) <= 0:
-      raise ValidationError('A senha deve possuir ao menos uma letra maiúscula.')
-
-   if len(re.findall(r'[a-z]+', login)) <= 0:
-      raise ValidationError('A senha deve possuir ao menos uma letra minúscula.')
-
-   if len(re.findall(r'\d+', login)) <= 0:
-      raise ValidationError('A senha deve possuir ao menos um número.')
-
-def isUnusedLogin(form, field):
-   login = field.data
-
-   u = User.query.filter(User.login == login).first()
-   if u is not None:
-      raise ValidationError('O login escolhido já está em uso')
-
-class RegistrationForm(Form):
-   login = TextField('Login', [
-      validators.Length(min=4, max=25, message=('O tamanho deve ser entre %(min)d e %(max)d caracteres.')),
-      isUnusedLogin
-   ])
-   name = TextField('Nome', [validators.Length(min=4, max=50, message=('O tamanho deve ser entre %(min)d e %(max)d caracteres.'))]) 
-   email = TextField('Email', [
-      validators.Length(min=6, max=35, message=('O tamanho deve ser entre %(min)d e %(max)d caracteres.')),
-      isEmail
-   ])
-   password = PasswordField('Senha', [
-      validators.Required(message=('Este campo é obrigatório')),
-      validators.EqualTo('confirm', message='As senhas devem ser iguais'),
-      isStrongPassword
-   ])
-   confirm = PasswordField('Repita a senha')
