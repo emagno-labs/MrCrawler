@@ -31,6 +31,26 @@ class User(Base):
    def __repr__(self):
       return '<User %r>' % (self.name)
 
+class Tweet(Base):
+   '''
+   Esta classe armazena os tweets coletados
+   '''
+
+   __tablename__ = 'tweets'
+
+   id = Column(Integer, primary_key=True)
+   text = Column(Text)
+   created_at = Column(DateTime)
+   source = Column(String(50))
+   user_name = Column(String(50))
+   user_id = Column(Integer)
+   user_description = Column(String(200))
+   user_created_at = Column(DateTime)
+   user_followers_count = Column(Integer)
+   user_friends_count = Column(Integer)
+   user_profile_image_url = Column(String(300))
+   tweet = Column(Text)
+
 class Analyze(Base):
    '''
    Esta classe define uma análise a uma url alvo (target_url).
