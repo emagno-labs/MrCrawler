@@ -3,7 +3,7 @@ Este módulo é responsável pela definição e implementação do modelo de dad
 A partir do modo declarativo do sqlalchemy cada classe representa uma tabela no banco de dados mapeada (ORM).
 '''
 
-from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Boolean
+from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Boolean, Numeric
 from core.data.orm.database import Base
 from sqlalchemy.orm import relationship, backref
 from datetime import datetime
@@ -39,9 +39,12 @@ class Tweet(Base):
    __tablename__ = 'tweets'
 
    id = Column(Integer, primary_key=True)
+   term = Column(String(200))
    text = Column(Text)
    created_at = Column(DateTime)
    source = Column(String(50))
+   lat = Column(Numeric(precision=15, scale=8))
+   lng = Column(Numeric(precision=15, scale=8))
    user_name = Column(String(50))
    user_id = Column(Integer)
    user_description = Column(String(200))

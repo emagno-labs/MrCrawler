@@ -5,22 +5,23 @@ O _MR. CRAWLER_ é um projeto desenvolvido na disciplina de Projetos Interativos
 
 **Status do projeto:** _estruturação do projeto e definição de escopo_
 
-Planos e ideias
+Escopo
 ----------------------
+O Mr. Crawler irá capturar todos os _tweets_ em tempo real que satisfaçam um determinado termo fornecido.
+Após a captura serão exibidos resultados derivados das diferentes análises realizadas:
 
-* Captura e coleta de dados de um dado web site;
-* Respeito pelo arquivo *Robots.txt*;
-* Extrair e armazenar links, *forms* e emails (bem como todo o conteúdo do site, tabulando por tags);
-* Análise de comentários no HTML (classificação de potenciais informações sensíveis);
-* Análise de *meta tags*;
-* Classificação da linguagem/tecnologia utilizada no web site;
-* Tabulação dos métodos HTTP permitidos; 
-* Indexação de documentos PDF e imagens e possibilidade de extração de metadados;
-* Auditoria contra *sql injection*;
-* Auditoria contra *xss (cross site scripting)*;
-* Auditoria contra *csrf (cross site request forgery)*;
-* Busca e interpretação de *site maps* para aumentar a superfície de análise;
-* E mais: *cross domain js*, *code disclosure*, *blank body*, *dot net event validation*, *http in body*...
+* Frequencia de palavras;
+* Diversidade léxica;
+* Entidades mais frequentes;
+* Relacionamentos entre os participantes;
+* Tweets com maior número de retweets;
+* Diversidade e frequencia da origem dos tweets;
+* Top usuários mais influentes (mais seguidores, menos interatividade);
+* Top usuários mais ativos (menos seguidores, mais interatividade);
+* Mapa de tweets geolocalizados;
+* Proporção entre tweets geolocalizados e os não-geolocalizados;
+* Top links compartilhados;
+* Top _trends_ comentados;
 
 Rodando o Mr. Crawler
 ----------------------
@@ -34,14 +35,10 @@ git clone https://github.com/eryckson/MrCrawler.git
 Para rodar o Mr. Crawler localmente é necessário ter o Python na versão 3.3.2 e também os seguintes frameworks:
 
 ```
-pip install Flask
-pip install tornado
-pip install beautifulsoup4
-pip install html5lib
-pip install lxml
+pip install Flask SQLAlchemy WTForms beautifulsoup4 html5lib lxml simplejson tornado twitter
 ```
 
-Depois basta:
+Depois precisamos iniciar a aplicação:
 
 ```
 python MrCrawler.py --logging=debug
@@ -55,7 +52,11 @@ http://localhost:8080
 
 Mais em Python
 ----------------------
+* [Python Para Zumbis - em português =)](http://pycursos.com/python-para-zumbis/)
+* [Pythonmonk](http://pythonmonk.com)
 * [Learn Python](http://docs.python-guide.org/en/latest/intro/learning/)
+* [Learn Python The Hard Way](http://learnpythonthehardway.org/book/)
+* [Interactive Python tutorial](http://www.learnpython.org)
 
 ----------------------
 
