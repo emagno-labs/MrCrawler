@@ -1,6 +1,10 @@
 *.py[cod]
 .DS_Store
 
+# base de dados
+*.db
+*.sqlite
+
 # C extensions
 *.so
 
