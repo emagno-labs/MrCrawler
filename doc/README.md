@@ -1,4 +1,4 @@
-Documentação
+﻿Documentação
 =====================
 
 A documentação do **Mr. Crawler** está dividida em 3 diretórios:

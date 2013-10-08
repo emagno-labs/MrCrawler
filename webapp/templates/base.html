@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
    <head>
       {% block head %}
@@ -16,7 +16,7 @@
 
       <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
       <!--[if lt IE 9]>
-         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+         <script type=text/javascript src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
       <![endif]-->
 
       <link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon2.ico') }}">
@@ -109,11 +109,14 @@
 
       </div>
 
+      <script type=text/javascript src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+      <script type=text/javascript src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+      <script type=text/javascript>
+         $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+      </script>
+      
       {% block js_footer %}
-      <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
       {% endblock %}
       
-      <script src="http://code.jquery.com/jquery.js"></script>
-      <script src="{{ url_for('static', filename='js/bootstrap.min.js')  }}"></script>
    </body>
 </html>

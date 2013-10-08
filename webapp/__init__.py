@@ -1,4 +1,4 @@
-'''
+﻿'''
 Este módulo é responsável por:
    1) criar uma aplicação Flask (routing + templating)
    2) criar um servidor tornado (wsgi server)
@@ -20,7 +20,7 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 # importando as views
-import web.app.views
+import webapp.views
 
 # preparando o servidor web (WSGI)
 

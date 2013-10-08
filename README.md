@@ -1,4 +1,4 @@
-MR. CRAWLER
+﻿MR. CRAWLER
 ================================
 
 O _MR. CRAWLER_ é um projeto desenvolvido na disciplina de Projetos Interativos (PI) do 4o Período do curso de Bacharelado de Ciências da Computação do Senac-SP.

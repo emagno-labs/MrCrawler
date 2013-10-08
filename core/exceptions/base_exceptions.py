@@ -1,3 +1,6 @@
+﻿#!/bin/python3.3.2
+# -`*- coding: utf-8 -*-
+
 '''
 Este módulo define a estrutura de exceções para MrCrawler.
 '''

@@ -1,9 +1,12 @@
+﻿#!/bin/python3.3.2
+# -`*- coding: utf-8 -*-
+
 '''
 Este módulo define e implementa os formulários web.
 '''
 
 from wtforms import Form, BooleanField, TextField, PasswordField, validators
-from web.app.forms.validators import * 
+from webapp.forms.validators import * 
 
 class RegistrationForm(Form):
    '''

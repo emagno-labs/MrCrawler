@@ -1,3 +1,6 @@
+﻿#!/bin/python3.3.2
+# -`*- coding: utf-8 -*-
+
 '''
 Este módulo é responsável pela definição e implementação do modelo de dados.
 A partir do modo declarativo do sqlalchemy cada classe representa uma tabela no banco de dados mapeada (ORM).

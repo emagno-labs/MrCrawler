@@ -1,8 +1,9 @@
+﻿#!/bin/python3.3.2
+# -`*- coding: utf-8 -*-
+
 '''
 Este módulo é responsável por realizar a coleta das informações (crawl) de um site.
 Os dados coletados serão armazenados para que seja realizadas análises e auditorias.
-
-moduleauthor:: Eryckson Magno <eryckson@me.com>
 '''
 
 from urllib import parse

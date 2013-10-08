@@ -1,2 +1,5 @@
-Removendo todos os arquivos .DS_Store
+﻿Removendo todos os arquivos .DS_Store
 find . -name .DS_Store -print0 | xargs -0 git rm --ignore-unmatch
+
+Alterando o encoding de todos os arquivos .py para utf-8
+vim +"argdo set bomb | set fileencoding=utf-8 | w" $(find . -type f -name *.tex)

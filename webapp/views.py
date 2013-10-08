@@ -1,9 +1,13 @@
-from web.app import app
-from flask import request, session, g, redirect, url_for, abort, render_template, flash, send_from_directory
+﻿#!/bin/python3.3.2
+# -`*- coding: utf-8 -*-
+
+from webapp import app
+from flask import request, session, g, redirect, url_for, abort, render_template, flash, send_from_directory, jsonify
 import os
 from core.data.orm.database import db_session
 from core.data.orm.models import User
-from web.app.forms.auth import RegistrationForm
+from webapp.forms.auth import RegistrationForm
+from core.crawler.crawl_twitter import CrawlTwitter
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
@@ -12,10 +16,15 @@ def shutdown_session(exception=None):
 # web methods
 @app.route('/busca', methods=['GET', 'POST'])
 def busca():
-   url = session['url']
-   word = session['word']
+   term = session['filter_term']
 
-   return render_template('busca.html', url='Teste')
+   return render_template('busca.html', filter_term=term)
+
+@app.route('/_add_numbers')
+def add_numbers():
+   a = request.args.get('a', 0, type=int)
+   b = request.args.get('b', 0, type=int)
+   return jsonify(result=a + b)
 
 @app.route('/')
 def index():
@@ -26,16 +35,14 @@ def index():
 def do_crawl():
    error = None
    if request.method == 'POST':
-      url = request.form['url']
-      word = request.form['word']
-      if not url:
-         error = 'A url deve ser informada!'
-      elif not word:
-         error = 'A palavra deve ser informada!'
+      term = request.form['filter_term']
+      if not term:
+         error = 'O termo da busca deve ser informado!'
       else:
-         session['url'] = url
-         session['word'] = word
-         flash('Busca sendo realizada!')
+         session['filter_term'] = term
+         #flash('Busca sendo realizada!')
+         ct = CrawlTwitter()
+         ct.listen(term, 10)
          return redirect(url_for('busca'))
    return render_template('index.html', error=error)
 
@@ -51,7 +58,7 @@ def login():
          error = 'Credenciais inválidas'
       else:
          session['logged_in'] = True
-         flash('Você está autenticado :)')
+         #flash('Você está autenticado :)')
          return redirect(url_for('do_crawl'))
 
    return render_template('login.html', error=error)
@@ -59,7 +66,7 @@ def login():
 @app.route('/logout')
 def logout():
    session.pop('logged_in', None)
-   flash('Você saiu :(')
+   #flash('Você saiu :(')
    return redirect(url_for('index'))
 
 @app.route('/register', methods=['GET', 'POST'])

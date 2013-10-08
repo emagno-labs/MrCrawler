@@ -1,3 +1,6 @@
+﻿#!/bin/python3.3.2
+# -`*- coding: utf-8 -*-
+
 '''
 Este módulo é responsável por criar e manutenir a base de dados, bem como fornecer uma sessão para a manipulação dos dados.
 '''

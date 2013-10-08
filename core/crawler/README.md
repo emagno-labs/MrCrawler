@@ -1,4 +1,4 @@
-Pacote core.controllers.crawler
+﻿Pacote core.controllers.crawler
 ============================
 
 Este pacote contém os módulos responsável por rastrear e coletar informações do site _alvo_.

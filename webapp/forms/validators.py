@@ -1,3 +1,6 @@
+﻿#!/bin/python3.3.2
+# -`*- coding: utf-8 -*-
+
 '''
 Este módulo implementa validações a serem utilizadas pelos formulários web
 '''

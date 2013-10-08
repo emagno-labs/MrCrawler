@@ -1,4 +1,4 @@
-Base de dados
+﻿Base de dados
 ============================
 
 Este diretório contém a base de dados propriamente dita do **Mr. Crawler**

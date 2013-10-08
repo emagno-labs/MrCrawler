@@ -1,3 +1,6 @@
+﻿#!/bin/python3.3.2
+# -`*- coding: utf-8 -*-
+
 """
 Este módulo representa a classe 'Page', responsável por armazenar os dados de uma página "crawleada"
 """

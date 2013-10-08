@@ -1,8 +1,9 @@
+﻿#!/bin/python3.3.2
+# -`*- coding: utf-8 -*-
+
 '''
 Este módulo é responsável por realizar o "spider" de uma url.
 Ele irá, a partir da url inicial, listar todas as urls (links) desta e repetir o processo até atingir os limites estabelecidos.
-
-moduleauthor:: Eryckson Magno <eryckson@me.com>
 '''
 
 from core.controllers.crawler.crawlurl import CrawlUrl 

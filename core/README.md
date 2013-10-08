@@ -1,4 +1,4 @@
-Pacote core
+﻿Pacote core
 ======================
 
 Este pacote é o motor do **Mr. Crawler**.

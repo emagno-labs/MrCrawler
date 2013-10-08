@@ -1,4 +1,4 @@
-Pacote core.data
+﻿Pacote core.data
 ====================
 
 Este pacote é responsável por encapsular todo o código e lógica necessárias para a manipulação de dados, bem como a própria base de dados.
