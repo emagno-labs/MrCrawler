@@ -41,9 +41,16 @@ def do_crawl():
       else:
          session['filter_term'] = term
          #flash('Busca sendo realizada!')
-         ct = CrawlTwitter()
-         ct.listen(term, 10)
-         return redirect(url_for('busca'))
+         #ct = CrawlTwitter()
+         #ct.listen(term, 10)
+         #return redirect(url_for('busca'))
+         
+         #data = {"id": 1, "value" : 100}
+         #data = json.dumps(data)
+
+         #for c in app.clientes:
+         #   c.write_message(data)
+
    return render_template('index.html', error=error)
 
 @app.route('/login', methods=['GET', 'POST'])

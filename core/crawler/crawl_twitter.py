@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 from core.data.orm.database import db_session
 from core.data.orm.models import Tweet
 from core.exceptions.crawl_exceptions import MaxTweetsReachError
+import requests
 
 CONSUMER_KEY="Fim30iOMcDXiGWc59VjxhQ" 
 CONSUMER_SECRET="GpYTUAeDhKqMhiFQwImVzdSZjw24kJR3QnmeRg6ME" 
@@ -66,11 +67,22 @@ class CrawlTwitter:
       db_session.add(tw)
       db_session.commit()
 
-   def listen(self, filter_term, max_tweets):
+   def listen(self, filter_term, max_tweets, wsid):
+      print ("Iniciando captura dos dados")
+
       twitter_stream = TwitterStream(auth=OAuth(OAUTH_TOKEN, OAUTH_SECRET, CONSUMER_KEY, CONSUMER_SECRET))
       iterator = twitter_stream.statuses.filter(track=filter_term)
 
       count = 0
+
+      try:
+         payload = {'id': 1, 'value': 1000, 'wsid': wsid}
+         r = requests.get("http://localhost:8080/api", params=payload, timeout=0.001)
+         print (r.url)
+         print (r.status_code)
+      except:
+         pass
+
 
       try:
          for tweet in iterator:
@@ -102,6 +114,14 @@ class CrawlTwitter:
 
                self.save(tweet, filter_term)
                count = count + 1
+
+               try:
+                  payload = {'id': 1, 'value': count, 'wsid': wsid}
+                  r = requests.get("http://localhost:8080/api", params=payload, timeout=0.001)
+                  print (r.url)
+                  print (r.status_code)
+               except:
+                  pass
 
                if count == max_tweets and max_tweets > 0:
                   err = "Foi alcançado o máximo de tweets para serem capturados: [%d]"
