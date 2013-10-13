@@ -26,15 +26,13 @@ class CrawlTwitter:
       return datetime.fromtimestamp(time.mktime(time_struct))
 
    def get_text(self, markup):
-      #try:
+      try:
          soup = BeautifulSoup(markup, "lxml")
          return soup.get_text()
-      #except:
-      #   return markup
+      except:
+         return markup
 
    def save(self, tweet, filter_term):
-      user = tweet.get('user')
-   
       # persistindo em base de dados
       tw = Tweet()
 
@@ -53,6 +51,9 @@ class CrawlTwitter:
             tw.lng = coords[1]  
 
       tw.term = filter_term
+      
+      user = tweet.get('user')
+      
       tw.user_name = user.get('name')
       tw.user_id = user.get('id')
       tw.user_description = user.get('description')
@@ -67,65 +68,47 @@ class CrawlTwitter:
       db_session.add(tw)
       db_session.commit()
 
+      self.print_tweet(tw)
+
+   def print_tweet(self, tw):
+      print ("Latitude: %s | Longitute: %s" % (tw.lat, tw.lng))
+      print ("Mensagem: %s" % tw.text)
+      print ("Data: %s" % tw.created_at.strftime("%d/%m/%Y %H:%M"))
+      print ("Origem: %s" % tw.source)
+      print ("Nome: %s [%d]" % (tw.user_name, tw.user_id))
+      print ("%s" % tw.user_description)
+      print ("Criado em: %s" % tw.user_created_at.strftime("%d/%m/%Y %H:%M"))
+      print ("Seguidores [%d], Amigos [%d]" % (tw.user_followers_count, tw.user_friends_count))
+      print ("Url Imagem: %s" % tw.user_profile_image_url)
+      print ("--------------------------------------------------------")
+
+   def send_message(self, count, wsid):
+      try:
+         payload = {'id': 1, 'value': count, 'wsid': wsid}
+         r = requests.get("http://localhost:8080/api", params=payload, timeout=0.001)
+      except:
+         pass
+
    def listen(self, filter_term, max_tweets, wsid):
-      print ("Iniciando captura dos dados")
 
       twitter_stream = TwitterStream(auth=OAuth(OAUTH_TOKEN, OAUTH_SECRET, CONSUMER_KEY, CONSUMER_SECRET))
       iterator = twitter_stream.statuses.filter(track=filter_term)
 
       count = 0
-
-      try:
-         payload = {'id': 1, 'value': 1000, 'wsid': wsid}
-         r = requests.get("http://localhost:8080/api", params=payload, timeout=0.001)
-         print (r.url)
-         print (r.status_code)
-      except:
-         pass
-
-
+      
+      self.send_message(count, wsid) 
+      print ("Iniciando captura dos dados")
+      
       try:
          for tweet in iterator:
-            #print(tweet)
+            self.save(tweet, filter_term)
+            count = count + 1
 
-            #json.dump(tweet, f, indent=3)
+            self.send_message(count, wsid)
 
-            if tweet.get('text'):
-               if tweet.get('geo'):
-                  print ("Geo: %s" % tweet.get('geo'))
-               else:
-                  print ("Sem geolocalizacao")
-
-               print ("Mensagem: %s" % tweet.get('text'))
-               print ("Data: %s" % tweet.get('created_at'))
-               print ("Origem: %s" % tweet.get('source'))
-   
-               user = tweet.get('user')
-   
-               print ("Nome: %s [%d]" % (user.get('name'), user.get('id')))
-               print ("%s" % user.get('description'))
-               print ("Criado em: %s" % user.get('created_at'))
-               print ("Seguidores [%s], Seguindo [%s], Amigos [%s]" % (user.get('followers_count'), user.get('following'), user.get('friends_count')))
-               print ("Geo Habilitado: %s" % user.get('geo_enabled'))
-               print ("Url: %s" % user.get('url'))
-               print ("Url Imagem: %s" % user.get('profile_image_url'))
-               print ("========================")
-               print (" ")
-
-               self.save(tweet, filter_term)
-               count = count + 1
-
-               try:
-                  payload = {'id': 1, 'value': count, 'wsid': wsid}
-                  r = requests.get("http://localhost:8080/api", params=payload, timeout=0.001)
-                  print (r.url)
-                  print (r.status_code)
-               except:
-                  pass
-
-               if count == max_tweets and max_tweets > 0:
-                  err = "Foi alcançado o máximo de tweets para serem capturados: [%d]"
-                  raise MaxTweetsReachError(err % max_tweets)
+            if count == max_tweets and max_tweets > 0:
+               err = "Foi alcançado o máximo de tweets para serem capturados: [%d]"
+               raise MaxTweetsReachError(err % max_tweets)
       
       except MaxTweetsReachError as e:
          print ("Leitura interrompida. Motivo: %s" % e.value)

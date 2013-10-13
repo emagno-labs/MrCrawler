@@ -98,10 +98,17 @@
     var $wsid = $('#wsid');
     var $urlapi = $('#urlapi')
 
+   $('#capturar').bind('click', function(event) {
+      event.preventDefault();
+      ws.send($('#filter_term').val());
+
+   });
+
+
     ws.onopen = function(){
       $message.attr("class", 'label label-success');
       $message.text('open');
-      ws.send("init");
+      // ws.send("init");
     };
     ws.onmessage = function(ev){
        // alert(ev.data);
@@ -203,7 +210,7 @@
             </div>
             <div class="form-group">
                <div class="col-lg-10 col-lg-offset-2">
-                  <button type="submit" class="btn btn-primary">Capturar</button>
+                  <button type="submit" class="btn btn-primary" id="capturar">Capturar</button>
                </div>
             </div>
          </form>

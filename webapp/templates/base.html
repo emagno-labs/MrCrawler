@@ -62,9 +62,8 @@
          <ul class="nav navbar-nav navbar-right">
             {% if not session.logged_in %}
             <li><a href="{{ url_for('login') }}">Entrar</a></li>
-            <li><a href="{{ url_for('register') }}">Registrar</a></li>
             {% else %}
-            <li><a href="{{ url_for('logout') }}">Sair</a></li>
+            <li><a href="{{ url_for('logout') }}">{{ session.user_name }} [Sair]</a></li>
             {% endif %}
          </ul>
          {% endblock %}
@@ -97,9 +96,9 @@
                   <!--<p>Construído por <a href="http://www.eryckson.com">Eryckson Magno</a>. Entre em contato <a href="mailto:eryckson@me.com">eryckson@me.com</a>.</p>
                   <p>Código licenciado com  <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License v2.0</a>.</p>
                   <p>
-                     Baseado em <a href="http://getbootstrap.com">Bootstrap</a>. 
-                     Ícones de <a href="http://fortawesome.github.io/Font-Awesome/">Font Awesome</a>. 
-                     Fontes de <a href="http://www.google.com/webfonts">Google</a>. 
+                     Baseado em <a href="http://getbootstrap.com">Bootstrap</a>.
+                     Ícones de <a href="http://fortawesome.github.io/Font-Awesome/">Font Awesome</a>.
+                     Fontes de <a href="http://www.google.com/webfonts">Google</a>.
                      Favicon por <a href="#">Gerador de Favicon</a>.
                      </p>-->
                </div>
@@ -114,9 +113,9 @@
       <script type=text/javascript>
          $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
       </script>
-      
+
       {% block js_footer %}
       {% endblock %}
-      
+
    </body>
 </html>

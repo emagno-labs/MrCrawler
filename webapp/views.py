@@ -4,14 +4,24 @@
 from webapp import app
 from flask import request, session, g, redirect, url_for, abort, render_template, flash, send_from_directory, jsonify
 import os
+
 from core.data.orm.database import db_session
 from core.data.orm.models import User
 from webapp.forms.auth import RegistrationForm
+
+# imports para twitter (autenticação e coleta)
+from core.crawler.twitter_oauth_dance import *
+
 from core.crawler.crawl_twitter import CrawlTwitter
+import twitter
+from twitter.oauth_dance import parse_oauth_tokens
+from twitter.oauth import read_token_file, write_token_file
+import uuid
+import webbrowser
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
-       db_session.remove()
+   db_session.remove()
 
 # web methods
 @app.route('/busca', methods=['GET', 'POST'])
@@ -28,7 +38,6 @@ def add_numbers():
 
 @app.route('/')
 def index():
-   session['teste'] = 'teste'
    return render_template('index.html')
 
 @app.route('/do_crawl', methods=['GET', 'POST'])
@@ -44,7 +53,7 @@ def do_crawl():
          #ct = CrawlTwitter()
          #ct.listen(term, 10)
          #return redirect(url_for('busca'))
-         
+
          #data = {"id": 1, "value" : 100}
          #data = json.dumps(data)
 
@@ -53,25 +62,17 @@ def do_crawl():
 
    return render_template('index.html', error=error)
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login')
 def login():
-   error = None
-   if request.method == 'POST':
-      login = request.form['username']
-      password = request.form[ 'password']
-
-      u = User.query.filter(User.login == login).filter(User.pwd == password).first()
-      if u is None:
-         error = 'Credenciais inválidas'
-      else:
-         session['logged_in'] = True
-         #flash('Você está autenticado :)')
-         return redirect(url_for('do_crawl'))
-
-   return render_template('login.html', error=error)
+   '''
+   Este método redireciona para a página do twitter para que o usuário
+   possa autorizar que o Mr. Crawler acesse sua conta
+   '''
+   return redirect(mrcrawler_oauth_dance())
 
 @app.route('/logout')
 def logout():
+   session.pop('user_id', None)
    session.pop('logged_in', None)
    #flash('Você saiu :(')
    return redirect(url_for('index'))
@@ -81,14 +82,13 @@ def register():
    '''
    Este método obtém os dados do formulário e realiza o registro do usuário.
    '''
-   
    form = RegistrationForm(request.form)
 
    if request.method == 'POST' and form.validate():
       user = User(form.login.data, form.name.data, form.email.data, form.password.data)
       db_session.add(user)
       db_session.commit()
-      
+
       flash('Thanks for registering')
       session['logged_in'] = True
       return redirect(url_for('do_crawl'))

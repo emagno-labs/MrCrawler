@@ -13,23 +13,39 @@ from datetime import datetime
 
 class User(Base):
    '''
-   Esta classe define um usuário do sistema
+   Esta classe armazena os usuários autorizados pelo twitter
    '''
-
    __tablename__ = 'users'
-   
-   id = Column(Integer, primary_key=True)
-   login = Column(String(20), unique=True)
-   name = Column(String(50), unique=True)
-   email = Column(String(120), unique=True)
-   created = Column(DateTime, default=datetime.now)
-   pwd = Column(String(200))
 
-   def __init__(self, login=None, name=None, email=None, pwd=None):
-      self.login = login
+   # dados de autenticação do Mr Crawler
+   id = Column(Integer, primary_key=True)
+   oauth_token = Column(String(50), unique=True)
+   oauth_token_secret = Column(String(50), unique=True)
+   created = Column(DateTime, default=datetime.now)
+   last_access = Column(DateTime, default=datetime.now)
+   browser = Column(String(50))
+   is_temporary = Column(Boolean, default=True)
+
+   # dados das credenciais do twitter
+   id_twitter = Column(Integer)
+   name = Column(String(50))
+   screen_name = Column(String(50))
+   description = Column(Text)
+   lang = Column(String(10))
+   time_zone = Column(String(50))
+   location = Column(String(100))
+   geo_enabled = Column(Boolean, default=False)
+   url = Column(String(100))
+   profile_image_url = Column(String(250))
+   friends_count = Column(Integer)
+   statuses_count = Column(Integer)
+   favourites_count = Column(Integer)
+
+   def __init__(self, oauth_token=None, oauth_token_secret=None, name=None, browser=None):
+      self.oauth_token = oauth_token
+      self.oauth_token_secret = oauth_token_secret
       self.name = name
-      self.email = email
-      self.pwd = pwd
+      self.browser = browser
 
    def __repr__(self):
       return '<User %r>' % (self.name)
@@ -88,11 +104,11 @@ class Page(Base):
    created = Column(DateTime, default=datetime.now)
    markup = Column(Text)
    text = Column(Text)
-   
+
    # foreign Keys
    analyze_id = Column(Integer, ForeignKey("analyzes.id"))
    parent_page_id = Column(Integer, ForeignKey('pages.id'))
-   
+
    # many-to-one relationships
    analyze = relationship("Analyze", backref=backref("pages", order_by=id))
 
@@ -123,7 +139,7 @@ class Script(Base):
    page_id = Column(Integer, ForeignKey('pages.id'))
 
    # many-to-one relationships
-   page = relationship("Page", backref=backref('scripts', order_by=id)) 
+   page = relationship("Page", backref=backref('scripts', order_by=id))
 
 class Comment(Base):
    '''
@@ -134,7 +150,7 @@ class Comment(Base):
 
    id = Column(Integer, primary_key=True)
    text = Column(Text)
-   
+
    # foreign keys
    page_id = Column(Integer, ForeignKey('pages.id'))
 
@@ -163,7 +179,7 @@ class PageVulnerability(Base):
    created = Column(DateTime, default=datetime.now)
    is_critical = Column(Boolean)
    text = Column(Text)
-   
+
    # foreign keys
    page_id = Column(Integer, ForeignKey('pages.id'))
    vuln_id = Column(Integer, ForeignKey('vulnerabilities.id'))

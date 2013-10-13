@@ -15,7 +15,6 @@ from tornado import web
 import json
 import uuid
 from core.crawler.crawl_twitter import CrawlTwitter
-import requests
 
 # configuracao da aplicacao Flask. TODO externalizar em um arquivo próprio
 SECRET_KEY = 'devkey' # para a session
@@ -45,26 +44,20 @@ class SocketHandler(WebSocketHandler):
       pode ser: init_listener
       ou: finish_listener
       '''
-      if message == "init":
+      if message is not None:
          data = {"wsid": str(self.id)}
          data = json.dumps(data)
          self.write_message(data)
-         print ("wsid: %s" % str(self.id))
-         
+
+         print ("wsid %s" % str(self.id))
+         print ("Capturando tweets para o termo: %s " % message)
+
          from concurrent import futures
-         executor = futures.ProcessPoolExecutor(max_workers=1)
+         executor = futures.ProcessPoolExecutor(max_workers=20)
          ct = CrawlTwitter()
-         future = executor.submit(ct.listen, "#meta", 10, str(self.id))
+         future = executor.submit(ct.listen, message, 100, str(self.id))
 
-         #try:
-         #   payload = {'id': 1, 'value': 1000, 'wsid': str(self.id)}
-         #   r = requests.get("http://localhost:8080/api", params=payload, timeout=0.001)
-         #   print (r.url)
-         #   print (r.status_code)
-         #except:
-         #   pass
-
-         print ("Dados capturados")
+         print ("Tweets capturados")
 
    def on_close(self):
       if self in clientes:
@@ -84,15 +77,15 @@ class ApiHandler(RequestHandler):
       for c in clientes:
          if str(c.id) == wsid:
             c.write_message(data)
-   
+
    @web.asynchronous
    def post(self):
       pass
 
 # habilitando linha de comando (utilizada para efetuar o logging no console: --logging=debug)
-tornado.options.parse_command_line() 
+tornado.options.parse_command_line()
 
-# inicializando o http server e configurando a porta 
+# inicializando o http server e configurando a porta
 #http_server = HTTPServer(WSGIContainer(app))
 #http_server.listen(8080)
 
