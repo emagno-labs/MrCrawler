@@ -39,6 +39,24 @@ def logout():
    session.pop('logged_in', None)
    return redirect(url_for('index'))
 
+@app.route('/_twitter_lookup')
+def add_numbers():
+   term = request.args.get('term')
+   wsid = request.args.get('wsid')
+   # b = request.args.get('b', 0, type=int)
+
+   user_id = session['user_id']
+
+   from core.twitter.twitter_stream import TwitterStream
+   from concurrent import futures
+   executor = futures.ProcessPoolExecutor(max_workers=20)
+   ct = TwitterStream()
+   # ct.listen(message, 100, str(self.id), 1)
+   future = executor.submit(ct.listen, term, 100, wsid, user_id)
+
+   return jsonify(result="Iniciado")
+
+
 
 
 # web methods
@@ -47,12 +65,6 @@ def busca():
    term = session['filter_term']
 
    return render_template('busca.html', filter_term=term)
-
-@app.route('/_add_numbers')
-def add_numbers():
-   a = request.args.get('a', 0, type=int)
-   b = request.args.get('b', 0, type=int)
-   return jsonify(result=a + b)
 
 @app.route('/do_crawl', methods=['GET', 'POST'])
 def do_crawl():

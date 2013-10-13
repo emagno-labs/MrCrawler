@@ -14,7 +14,6 @@ from tornado.web import Application, FallbackHandler, RequestHandler
 from tornado import web
 import json
 import uuid
-from core.twitter.twitter_stream import TwitterStream
 
 # configuracao da aplicacao Flask. TODO externalizar em um arquivo próprio
 SECRET_KEY = 'devkey' # para a session
@@ -41,23 +40,29 @@ class SocketHandler(WebSocketHandler):
          self.id = uuid.uuid4()
          clientes.append(self)
 
-   def on_message(self, message):
-      # pass
-      if message is not None:
          data = {"wsid": str(self.id)}
          data = json.dumps(data)
          self.write_message(data)
 
-         print ("wsid %s" % str(self.id))
-         print ("Capturando tweets para o termo: %s " % message)
+   def on_message(self, message):
+      pass
+      # if message is not None:
+      # print ("wsid %s" % str(self.id))
 
-         # from concurrent import futures
-         # executor = futures.ProcessPoolExecutor(max_workers=20)
-         ct = TwitterStream()
-         ct.listen(message, 100, str(self.id), 1)
-         # future = executor.submit(ct.listen, message, 100, str(self.id), 1)
+      # data = {"wsid": str(self.id)}
+      # data = json.dumps(data)
+      # self.write_message(data)
 
-         print ("Tweets capturados")
+      #    print ("wsid %s" % str(self.id))
+      #    print ("Capturando tweets para o termo: %s " % message)
+
+      #    # from concurrent import futures
+      #    # executor = futures.ProcessPoolExecutor(max_workers=20)
+      #    ct = TwitterStream()
+      #    ct.listen(message, 100, str(self.id), 1)
+      #    # future = executor.submit(ct.listen, message, 100, str(self.id), 1)
+
+      #    print ("Tweets capturados")
 
    def on_close(self):
       if self in clientes:
