@@ -5,7 +5,6 @@
 Este módulo é responsável pela definição e implementação do modelo de dados.
 A partir do modo declarativo do sqlalchemy cada classe representa uma tabela no banco de dados mapeada (ORM).
 '''
-
 from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Boolean, Numeric
 from core.data.orm.database import Base
 from sqlalchemy.orm import relationship, backref
@@ -50,15 +49,31 @@ class User(Base):
    def __repr__(self):
       return '<User %r>' % (self.name)
 
+class TweetFindOut(Base):
+   '''
+   Esta classe define a pesquisas/procuras por tweets realizadas
+   '''
+   __tablename__ = 'tweets_find_out'
+
+   id = Column(Integer, primary_key=True)
+   term = Column(String(100))
+   search_type = Column(String(30))
+   max_tweets = Column(Integer)
+   created = Column(DateTime, default=datetime.now)
+
+   # foreign keys
+   user_id = Column(Integer, ForeignKey('users.id'))
+
+   # many-to-one relationships
+   user = relationship("User", backref=backref('tweets_find_out', order_by=id))
+
 class Tweet(Base):
    '''
-   Esta classe armazena os tweets coletados
+   Esta classe armazena os tweets coletados (a partir de uma definição em "TweetFindOut")
    '''
-
    __tablename__ = 'tweets'
 
    id = Column(Integer, primary_key=True)
-   term = Column(String(200))
    text = Column(Text)
    created_at = Column(DateTime)
    source = Column(String(50))
@@ -73,118 +88,124 @@ class Tweet(Base):
    user_profile_image_url = Column(String(300))
    tweet = Column(Text)
 
-class Analyze(Base):
-   '''
-   Esta classe define uma análise a uma url alvo (target_url).
-   Um usuário realiza uma análise que pode ter várias páginas analisadas.
-   '''
-
-   __tablename__ = 'analyzes'
-
-   id = Column(Integer, primary_key=True)
-   target_url = (String(250))
-   created = Column(DateTime, default=datetime.now)
-
-   # foreign keys
-   user_id = Column(Integer, ForeignKey('users.id'))
-
-   # many-to-one relationships
-   user = relationship("User", backref=backref('analyzes', order_by=id))
-
-class Page(Base):
-   '''
-   Esta classe define uma página que foi analisada.
-   Uma página pode possuir links (outras páginas) poderão também ser analisados.
-   '''
-
-   __tablename__ = 'pages'
-
-   id = Column(Integer, primary_key=True)
-   url = Column(String(250))
-   created = Column(DateTime, default=datetime.now)
-   markup = Column(Text)
-   text = Column(Text)
-
    # foreign Keys
-   analyze_id = Column(Integer, ForeignKey("analyzes.id"))
-   parent_page_id = Column(Integer, ForeignKey('pages.id'))
+   tweet_find_out_id = Column(Integer, ForeignKey("tweets_find_out.id"))
 
    # many-to-one relationships
-   analyze = relationship("Analyze", backref=backref("pages", order_by=id))
+   tweet_find_out = relationship("TweetFindOut", backref=backref("tweets", order_by=id))
 
-   # one-to-many relationships
-   pages = relationship("Page", backref=backref('parent_page', remote_side=[id]))
+# class Analyze(Base):
+#    '''
+#    Esta classe armazena as análises realizadas sobre uma pesquisa (TweetFindOut)
+#    '''
+#    __tablename__ = 'analyzes'
 
-   def __init__(self, url=None, markup=None, text=None):
-      self.url = url
-      self.markup = markup
-      sefl.text = text
+#    id = Column(Integer, primary_key=True)
+#    term = Column(String(100))
+#    search_type = Column(String(30))
+#    max_tweets = Column(Integer)
+#    created = Column(DateTime, default=datetime.now)
 
-   def __repr__(self):
-      return '<Page %r>' % (self.url)
+#    # foreign Keys
+#    tweet_find_out_id = Column(Integer, ForeignKey("tweets_find_out.id"))
 
-class Script(Base):
-   '''
-   Esta classe define um script (tag script) encontrada em uma página.
-   '''
+#    # many-to-one relationships
+#    tweet_find_out = relationship("TweetFindOut", backref=backref("analyzes", order_by=id))
 
-   __tablename__ = 'scripts'
+# class Page(Base):
+#    '''
+#    Esta classe define uma página que foi analisada.
+#    Uma página pode possuir links (outras páginas) poderão também ser analisados.
+#    '''
 
-   id = Column(Integer, primary_key=True)
-   source = Column(String(250))
-   type = Column(String(30))
-   code = Column(Text)
+#    __tablename__ = 'pages'
 
-   # foreign keys
-   page_id = Column(Integer, ForeignKey('pages.id'))
+#    id = Column(Integer, primary_key=True)
+#    url = Column(String(250))
+#    created = Column(DateTime, default=datetime.now)
+#    markup = Column(Text)
+#    text = Column(Text)
 
-   # many-to-one relationships
-   page = relationship("Page", backref=backref('scripts', order_by=id))
+#    # foreign Keys
+#    analyze_id = Column(Integer, ForeignKey("analyzes.id"))
+#    parent_page_id = Column(Integer, ForeignKey('pages.id'))
 
-class Comment(Base):
-   '''
-   Esta classe define um comentário encontrado em uma página.
-   '''
+#    # many-to-one relationships
+#    analyze = relationship("Analyze", backref=backref("pages", order_by=id))
 
-   __tablename__ = 'comments'
+#    # one-to-many relationships
+#    pages = relationship("Page", backref=backref('parent_page', remote_side=[id]))
 
-   id = Column(Integer, primary_key=True)
-   text = Column(Text)
+#    def __init__(self, url=None, markup=None, text=None):
+#       self.url = url
+#       self.markup = markup
+#       sefl.text = text
 
-   # foreign keys
-   page_id = Column(Integer, ForeignKey('pages.id'))
+#    def __repr__(self):
+#       return '<Page %r>' % (self.url)
 
-   # many-to-one relationships
-   page = relationship("Page", backref=backref('comments', order_by=id))
+# class Script(Base):
+#    '''
+#    Esta classe define um script (tag script) encontrada em uma página.
+#    '''
 
-class Vulnerability(Base):
-   '''
-   Esta classe define as diferentes vulnerabilidades que uma página (e seus componentes) podem possuir.
-   '''
+#    __tablename__ = 'scripts'
 
-   __tablename__ = 'vulnerabilities'
+#    id = Column(Integer, primary_key=True)
+#    source = Column(String(250))
+#    type = Column(String(30))
+#    code = Column(Text)
 
-   id = Column(Integer, primary_key=True)
-   name = Column(String(100))
-   description = Column(Text)
+#    # foreign keys
+#    page_id = Column(Integer, ForeignKey('pages.id'))
 
-class PageVulnerability(Base):
-   '''
-   Esta classe define as vulnerabilidades que foram localizadas em uma página analisada.
-   '''
+#    # many-to-one relationships
+#    page = relationship("Page", backref=backref('scripts', order_by=id))
 
-   __tablename__ = 'page_vulnerabilities'
+# class Comment(Base):
+#    '''
+#    Esta classe define um comentário encontrado em uma página.
+#    '''
 
-   id = Column(Integer, primary_key=True)
-   created = Column(DateTime, default=datetime.now)
-   is_critical = Column(Boolean)
-   text = Column(Text)
+#    __tablename__ = 'comments'
 
-   # foreign keys
-   page_id = Column(Integer, ForeignKey('pages.id'))
-   vuln_id = Column(Integer, ForeignKey('vulnerabilities.id'))
+#    id = Column(Integer, primary_key=True)
+#    text = Column(Text)
 
-   # many-to-one relationships
-   page = relationship('Page', backref=backref('pageanalyzes', order_by=id))
-   vuln = relationship('Vulnerability', backref=backref('pageanalyzes', order_by=id))
+#    # foreign keys
+#    page_id = Column(Integer, ForeignKey('pages.id'))
+
+#    # many-to-one relationships
+#    page = relationship("Page", backref=backref('comments', order_by=id))
+
+# class Vulnerability(Base):
+#    '''
+#    Esta classe define as diferentes vulnerabilidades que uma página (e seus componentes) podem possuir.
+#    '''
+
+#    __tablename__ = 'vulnerabilities'
+
+#    id = Column(Integer, primary_key=True)
+#    name = Column(String(100))
+#    description = Column(Text)
+
+# class PageVulnerability(Base):
+#    '''
+#    Esta classe define as vulnerabilidades que foram localizadas em uma página analisada.
+#    '''
+
+#    __tablename__ = 'page_vulnerabilities'
+
+#    id = Column(Integer, primary_key=True)
+#    created = Column(DateTime, default=datetime.now)
+#    is_critical = Column(Boolean)
+#    text = Column(Text)
+
+#    # foreign keys
+#    page_id = Column(Integer, ForeignKey('pages.id'))
+#    vuln_id = Column(Integer, ForeignKey('vulnerabilities.id'))
+
+#    # many-to-one relationships
+#    page = relationship('Page', backref=backref('pageanalyzes', order_by=id))
+#    vuln = relationship('Vulnerability', backref=backref('pageanalyzes', order_by=id))
 

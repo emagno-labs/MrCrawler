@@ -14,7 +14,7 @@ from tornado.web import Application, FallbackHandler, RequestHandler
 from tornado import web
 import json
 import uuid
-from core.crawler.crawl_twitter import CrawlTwitter
+from core.twitter.twitter_stream import TwitterStream
 
 # configuracao da aplicacao Flask. TODO externalizar em um arquivo próprio
 SECRET_KEY = 'devkey' # para a session
@@ -27,23 +27,22 @@ app.config.from_object(__name__)
 
 # importando as views
 import webapp.views
-
-# preparando o servidor web (WSGI)
+import webapp.oauth_dance_views
 
 clientes = [] # de clientes do websocket
 
 class SocketHandler(WebSocketHandler):
+   '''
+   Esta classe handler é responsável por iniciar uma comunicação via
+   websockets entre o servidor e o cliente (browser)
+   '''
    def open(self):
       if self not in clientes:
          self.id = uuid.uuid4()
          clientes.append(self)
 
    def on_message(self, message):
-      '''
-      json.load para carregar a mensagem
-      pode ser: init_listener
-      ou: finish_listener
-      '''
+      # pass
       if message is not None:
          data = {"wsid": str(self.id)}
          data = json.dumps(data)
@@ -52,10 +51,11 @@ class SocketHandler(WebSocketHandler):
          print ("wsid %s" % str(self.id))
          print ("Capturando tweets para o termo: %s " % message)
 
-         from concurrent import futures
-         executor = futures.ProcessPoolExecutor(max_workers=20)
-         ct = CrawlTwitter()
-         future = executor.submit(ct.listen, message, 100, str(self.id))
+         # from concurrent import futures
+         # executor = futures.ProcessPoolExecutor(max_workers=20)
+         ct = TwitterStream()
+         ct.listen(message, 100, str(self.id), 1)
+         # future = executor.submit(ct.listen, message, 100, str(self.id), 1)
 
          print ("Tweets capturados")
 
@@ -64,13 +64,18 @@ class SocketHandler(WebSocketHandler):
          clientes.remove(self)
 
 class ApiHandler(RequestHandler):
-
+   '''
+   Esta classe handler é responsável por receber uma notificação via api RESTful
+   e enviar uma mensagem pelo websocket para os browsers clientes
+   '''
    @web.asynchronous
    def get(self, *args):
       self.finish()
+
       wsid = self.get_argument("wsid")
       id = self.get_argument("id")
       value = self.get_argument("value")
+
       data = {"id": id, "value" : value}
       data = json.dumps(data)
 
@@ -84,10 +89,6 @@ class ApiHandler(RequestHandler):
 
 # habilitando linha de comando (utilizada para efetuar o logging no console: --logging=debug)
 tornado.options.parse_command_line()
-
-# inicializando o http server e configurando a porta
-#http_server = HTTPServer(WSGIContainer(app))
-#http_server.listen(8080)
 
 wsgi_app = WSGIContainer(app)
 
