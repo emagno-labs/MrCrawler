@@ -5,7 +5,7 @@ from core.twitter.twitter_oauth_dance import get_twitter_stream
 from core.exceptions.crawl_exceptions import MaxTweetsReachError
 
 class TwitterStream(TwitterLookUp):
-   def listen(self, wsid):
+   def search(self, wsid):
       twitter_stream = get_twitter_stream(self.user_id)
       iterator = twitter_stream.statuses.filter(track=self.term)
 
@@ -22,6 +22,7 @@ class TwitterStream(TwitterLookUp):
             payload = {'id': 1, 'value': count, 'wsid': wsid}
             self.send_message(payload)
 
+            # TODO limitar a pesquisa por tempo também
             if count == self.max_tweets and self.max_tweets > 0:
                err = "Foi alcançado o máximo de tweets para serem capturados: [%d]"
                raise MaxTweetsReachError(err % self.max_tweets)

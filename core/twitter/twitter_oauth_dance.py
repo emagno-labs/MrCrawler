@@ -44,6 +44,15 @@ def get_user_oauth_tokens(oauth_token, oauth_token_secret, oauth_verifier):
 
    return parse_oauth_tokens(_twitter.oauth.access_token(oauth_verifier=oauth_verifier))
 
+def get_twitter_api(user_id):
+   user = User.query.filter(User.id == user_id).first()
+
+   if user is not None:
+      _twitter_oauth = twitter.OAuth(user.oauth_token, user.oauth_token_secret, CONSUMER_KEY, CONSUMER_SECRET)
+      return twitter.Twitter(auth=_twitter_oauth, api_version='1.1', domain='api.twitter.com')
+   else:
+      return None
+
 def get_user_credentials(oauth_token, oauth_token_secret):
    '''
    recupera os dados da conta do usuário no twitter

@@ -9,6 +9,8 @@ import requests
 from core.data.orm.database import db_session
 from core.data.orm.models import Tweet, TweetFindOut
 
+MAX_TWEETS_FOR_FIND_OUT = 1500
+
 class TwitterLookUp:
 
    tfo_id = None
@@ -17,7 +19,7 @@ class TwitterLookUp:
    max_tweets = 0
    user_id = None
 
-   def __init__(self, term, search_type, max_tweets, user_id):
+   def __init__(self, term, search_type, user_id, max_tweets=MAX_TWEETS_FOR_FIND_OUT):
       tfo = TweetFindOut(term, search_type, max_tweets, user_id)
       db_session.add(tfo)
       db_session.commit()

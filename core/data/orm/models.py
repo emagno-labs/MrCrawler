@@ -81,6 +81,7 @@ class Tweet(Base):
 
    id = Column(Integer, primary_key=True)
    text = Column(Text)
+   captured = Column(DateTime, default=datetime.now)
    created_at = Column(DateTime)
    source = Column(String(50))
    lat = Column(Numeric(precision=15, scale=8))

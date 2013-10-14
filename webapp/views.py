@@ -9,6 +9,7 @@ from core.data.orm.database import db_session
 from core.data.orm.models import User
 
 from core.twitter.twitter_stream import TwitterStream
+from core.twitter.twitter_search import TwitterSearch
 from concurrent import futures
 
 @app.teardown_appcontext
@@ -46,17 +47,19 @@ def logout():
 def add_numbers():
    term = request.args.get('term')
    wsid = request.args.get('wsid')
-   # b = request.args.get('b', 0, type=int)
-
+   search_type = request.args.get('search_type')
    user_id = session['user_id']
 
-   ct = TwitterStream(term, "twitter_stream", 100, user_id)
    executor = futures.ProcessPoolExecutor(max_workers=1)
 
+   ts = None
+   if search_type == "twitter_stream":
+      ts = TwitterStream(term, "twitter_stream", user_id)
+   else:
+      ts = TwitterSearch(term, "twitter_search", user_id)
 
-   #ct.listen(wsid)
-   future = executor.submit(ct.listen, wsid)
+   if ts is None:
+      return jsonify(result="Tipo de pesquisa inválido")
 
-   # print(future.result())
-
+   future = executor.submit(ts.search, wsid)
    return jsonify(result="Iniciado")

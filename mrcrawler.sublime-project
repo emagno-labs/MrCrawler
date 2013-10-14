@@ -14,8 +14,9 @@
          "path": "/Users/eryckson/.virtualenvs/MrCrawler/bin",
          "working_dir": "/Users/eryckson/Documents/dev/github/MrCrawler",
          "env": {"PYTHONPATH":"/Users/eryckson/Documents/dev/github/MrCrawler:/Users/eryckson/.virtualenvs/MrCrawler/lib/python3.3/site-packages"},
-         "cmd": ["pip", "freeze"]
+         //"cmd": ["pip", "freeze"],
          //"cmd": ["python", "MrCrawler.py", "--logging=debug"]
+         "cmd": ["python", "teste.py"]
       }
    ]
 }

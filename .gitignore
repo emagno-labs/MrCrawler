@@ -1,6 +1,9 @@
 *.py[cod]
 .DS_Store
 
+# arquivo de teste
+teste.py
+
 # base de dados
 *.db
 *.sqlite
