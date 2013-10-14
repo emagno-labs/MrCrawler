@@ -8,6 +8,9 @@ from core.twitter.twitter_oauth_dance import mrcrawler_oauth_dance
 from core.data.orm.database import db_session
 from core.data.orm.models import User
 
+from core.twitter.twitter_stream import TwitterStream
+from concurrent import futures
+
 @app.teardown_appcontext
 def shutdown_session(exception=None):
    db_session.remove()
@@ -47,43 +50,13 @@ def add_numbers():
 
    user_id = session['user_id']
 
-   from core.twitter.twitter_stream import TwitterStream
-   from concurrent import futures
-   executor = futures.ProcessPoolExecutor(max_workers=20)
-   ct = TwitterStream()
-   # ct.listen(message, 100, str(self.id), 1)
-   future = executor.submit(ct.listen, term, 100, wsid, user_id)
+   ct = TwitterStream(term, "twitter_stream", 100, user_id)
+   executor = futures.ProcessPoolExecutor(max_workers=1)
+
+
+   #ct.listen(wsid)
+   future = executor.submit(ct.listen, wsid)
+
+   # print(future.result())
 
    return jsonify(result="Iniciado")
-
-
-
-
-# web methods
-@app.route('/busca', methods=['GET', 'POST'])
-def busca():
-   term = session['filter_term']
-
-   return render_template('busca.html', filter_term=term)
-
-@app.route('/do_crawl', methods=['GET', 'POST'])
-def do_crawl():
-   error = None
-   if request.method == 'POST':
-      term = request.form['filter_term']
-      if not term:
-         error = 'O termo da busca deve ser informado!'
-      else:
-         session['filter_term'] = term
-         #flash('Busca sendo realizada!')
-         #ct = CrawlTwitter()
-         #ct.listen(term, 10)
-         #return redirect(url_for('busca'))
-
-         #data = {"id": 1, "value" : 100}
-         #data = json.dumps(data)
-
-         #for c in app.clientes:
-         #   c.write_message(data)
-
-   return render_template('index.html', error=error)

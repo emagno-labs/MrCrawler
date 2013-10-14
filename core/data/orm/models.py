@@ -67,6 +67,12 @@ class TweetFindOut(Base):
    # many-to-one relationships
    user = relationship("User", backref=backref('tweets_find_out', order_by=id))
 
+   def __init__(self, term=None, search_type=None, max_tweets=1000, user_id=None):
+      self.term = term
+      self.search_type = search_type
+      self.max_tweets = max_tweets
+      self.user_id = user_id
+
 class Tweet(Base):
    '''
    Esta classe armazena os tweets coletados (a partir de uma definição em "TweetFindOut")

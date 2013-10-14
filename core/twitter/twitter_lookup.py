@@ -7,9 +7,27 @@ import simplejson as json
 import requests
 
 from core.data.orm.database import db_session
-from core.data.orm.models import Tweet
+from core.data.orm.models import Tweet, TweetFindOut
 
 class TwitterLookUp:
+
+   tfo_id = None
+   term = None
+   search_type = None
+   max_tweets = 0
+   user_id = None
+
+   def __init__(self, term, search_type, max_tweets, user_id):
+      tfo = TweetFindOut(term, search_type, max_tweets, user_id)
+      db_session.add(tfo)
+      db_session.commit()
+
+      self.tfo_id = tfo.id
+      self.term = term
+      self.search_type = search_type
+      self.max_tweets = max_tweets
+      self.user_id = user_id
+
    def send_message(self, message_payload):
       try:
          # payload = {'id': 1, 'value': count, 'wsid': wsid}
@@ -48,9 +66,12 @@ class TwitterLookUp:
             return coords[0], coords[1]
       return None, None
 
-   def save_tweet(self, tweet, filter_term):
+   def save_tweet(self, tweet):
       # persistindo em base de dados
       tw = Tweet()
+
+      # relacionando com a busca realizada
+      tw.tweet_find_out_id = self.tfo_id
 
       tw.text = tweet.get('text')
       tw.created_at = self.set_date(tweet.get('created_at'))
