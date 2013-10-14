@@ -75,9 +75,3 @@ def get_twitter_stream(user_id):
       return twitter_stream
    else:
       return None
-
-def get_twitter_search(user_id):
-   '''
-   Obtendo twitter "search" para usuário
-   '''
-   pass

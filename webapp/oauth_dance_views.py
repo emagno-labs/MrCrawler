@@ -22,8 +22,7 @@ def oauth_helper():
       try:
          update_user_tokens(oauth_token, oauth_verifier)
       except:
-         # remove_user_by_public_token(oauth_token)
-         raise
+         remove_user_by_public_token(oauth_token)
 
    return render_template('index.html')
 

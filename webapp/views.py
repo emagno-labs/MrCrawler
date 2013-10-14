@@ -44,7 +44,11 @@ def logout():
    return redirect(url_for('index'))
 
 @app.route('/_twitter_lookup')
-def add_numbers():
+def twitter_lookup():
+   '''
+   Este método recebe a requisição para capturar os tweets
+   A chamada é disparada de forma assíncrona
+   '''
    term = request.args.get('term')
    wsid = request.args.get('wsid')
    search_type = request.args.get('search_type')
