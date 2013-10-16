@@ -3,25 +3,28 @@
 
 O _MR. CRAWLER_ é um projeto desenvolvido na disciplina de Projetos Interativos (PI) do 4o Período do curso de Bacharelado de Ciências da Computação do Senac-SP.
 
-**Status do projeto:** _estruturação do projeto e definição de escopo_
+**Status do projeto:** _implementação das rotinas de análise_
 
 Escopo
 ----------------------
-O Mr. Crawler irá capturar todos os _tweets_ em tempo real que satisfaçam um determinado termo fornecido.
+O Mr. Crawler irá capturar todos os _tweets_ em tempo real (_stream_) ou da base histórica (_search_) que satisfaçam um determinado termo fornecido.
+Para realizar a coleta e análise é necessário que o usuário tenha uma conta ativa do _Twitter_, com a qual ele deverá autorizar o Mr. Crawler acessar sua conta.
+
 Após a captura serão exibidos resultados derivados das diferentes análises realizadas:
 
 * Frequencia de palavras;
 * Diversidade léxica;
 * Entidades mais frequentes;
-* Relacionamentos entre os participantes;
-* Tweets com maior número de retweets;
 * Diversidade e frequencia da origem dos tweets;
 * Top usuários mais influentes (mais seguidores, menos interatividade);
 * Top usuários mais ativos (menos seguidores, mais interatividade);
-* Mapa de tweets geolocalizados;
 * Proporção entre tweets geolocalizados e os não-geolocalizados;
-* Top links compartilhados;
-* Top _trends_ comentados;
+
+Planejados e desejáveis:
+
+* Mapa de tweets geolocalizados;
+* Relacionamentos entre os participantes;
+* Tweets com maior número de retweets;
 
 Rodando o Mr. Crawler
 ----------------------
@@ -35,7 +38,7 @@ git clone https://github.com/eryckson/MrCrawler.git
 Para rodar o Mr. Crawler localmente é necessário ter o Python na versão 3.3.2 e também os seguintes frameworks:
 
 ```
-pip install Flask SQLAlchemy WTForms beautifulsoup4 html5lib lxml simplejson tornado twitter
+pip install Flask Jinja2 SQLAlchemy beautifulsoup4 html5lib lxml requests simplejson tornado twitter
 ```
 
 Depois precisamos iniciar a aplicação:
@@ -50,9 +53,9 @@ e ele estará respondendo em
 http://localhost:8080
 ```
 
-Mais em Python
+Para aprender Python
 ----------------------
-* [Python Para Zumbis - em português =)](http://pycursos.com/python-para-zumbis/)
+* [Python Para Zumbis - em português](http://pycursos.com/python-para-zumbis/)
 * [Pythonmonk](http://pythonmonk.com)
 * [Learn Python](http://docs.python-guide.org/en/latest/intro/learning/)
 * [Learn Python The Hard Way](http://learnpythonthehardway.org/book/)

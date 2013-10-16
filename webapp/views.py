@@ -66,4 +66,5 @@ def twitter_lookup():
       return jsonify(result="Tipo de pesquisa inválido")
 
    future = executor.submit(ts.search, wsid)
+   # ts.search(wsid)
    return jsonify(result="Iniciado")

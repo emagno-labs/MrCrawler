@@ -1,0 +1,20 @@
+CREATE TABLE tweets (
+   id INTEGER NOT NULL,
+   text TEXT,
+   captured DATETIME,
+   created_at DATETIME,
+   source VARCHAR(50),
+   lat NUMERIC(15, 8),
+   lng NUMERIC(15, 8),
+   user_name VARCHAR(50),
+   user_id INTEGER,
+   user_description VARCHAR(200),
+   user_created_at DATETIME,
+   user_followers_count INTEGER,
+   user_friends_count INTEGER,
+   user_profile_image_url VARCHAR(300),
+   tweet TEXT,
+   tweet_find_out_id INTEGER,
+   PRIMARY KEY (id),
+   FOREIGN KEY(tweet_find_out_id) REFERENCES tweets_find_out (id)
+)

@@ -4,6 +4,8 @@ from core.twitter.twitter_lookup import TwitterLookUp, MAX_TWEETS_FOR_FIND_OUT
 from core.twitter.twitter_oauth_dance import get_twitter_api
 from core.exceptions.crawl_exceptions import MaxTweetsReachError
 
+from core.twitter.utils import das_tretas_vish
+
 class TwitterSearch(TwitterLookUp):
    def search(self, wsid):
       count = 0
@@ -62,3 +64,5 @@ class TwitterSearch(TwitterLookUp):
 
       payload = {'id': 1, 'value': count, 'wsid': wsid}
       self.send_message(payload)
+
+      das_tretas_vish(batch_tweets)

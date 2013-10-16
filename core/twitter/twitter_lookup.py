@@ -9,7 +9,7 @@ import requests
 from core.data.orm.database import db_session
 from core.data.orm.models import Tweet, TweetFindOut
 
-MAX_TWEETS_FOR_FIND_OUT = 1500
+MAX_TWEETS_FOR_FIND_OUT = 1000
 
 class TwitterLookUp:
 

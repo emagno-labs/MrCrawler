@@ -5,7 +5,10 @@
 		{
 			"follow_symlinks": true,
 			"path": "/Users/eryckson/Documents/dev/github/MrCrawler"
-		}
+		},
+      {
+         "path": "/Users/eryckson/Documents/dev/local/d3"
+      }
 	],
    "build_systems":
    [
