@@ -3,12 +3,14 @@
 {% block content %}
 {% if not session.logged_in %}
 
+<!--
 <div class="page-header" id="banner">
   <div class="row">
    <div class="col-lg-6">
     <h1>Segurança</h1>
     <p class="lead">Verificação de vulnerabilidades</p>
   </div>
+
   <div class="col-lg-6">
     <div class="well">
      <h2>Segurança de aplicações Web</h2>
@@ -18,6 +20,7 @@
      <p>The following snippet of text is <em>rendered as italicized text</em>.</p>
      <p>An abbreviation of the word attribute is <abbr title="attribute">attr</abbr>.</p>
    </div>
+
  </div>
 </div>
 </div>
@@ -31,7 +34,11 @@
  </div>
 </div>
 
+-->
+
 <div class="row">
+
+ <!--
  <div class="col-lg-4">
   <div class="bs-example bs-example-type">
    <h1>Heading 1</h1>
@@ -45,29 +52,52 @@
    <p class="lead">Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
  </div>
 </div>
+-->
+
 <div class="col-lg-4">
   <div class="bs-example">
-   <h2>Example body text</h2>
-   <p>Nullam quis risus eget <a href="#">urna mollis ornare</a> vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.</p>
-   <p><small>This line of text is meant to be treated as fine print.</small></p>
-   <p>The following snippet of text is <strong>rendered as bold text</strong>.</p>
-   <p>The following snippet of text is <em>rendered as italicized text</em>.</p>
-   <p>An abbreviation of the word attribute is <abbr title="attribute">attr</abbr>.</p>
+   <h2>Big Data</h2>
+   <p><em>Big Data</em> é um termo para uma coleção de dados tão grandes e complexos que se torna difícil processa-la utilizando ferramentas de gerenciamento de dados e aplicativos de processamento de dados comuns.</p>
+   <p>O desafio inclui a captura, curadoria, armazenamento, busca, compartilhamento, transferência, análise e visualização.</p>
+   <p>O propósito do Mr. Crawler é atuar em alguns destes desafios como a captura, a análise e a visualização.</p>
  </div>
 </div>
+
 <div class="col-lg-4">
-  <h2>Emphasis classes</h2>
   <div class="bs-example">
-    <p class="text-muted">Fusce dapibus, tellus ac cursus commodo, tortor mauris nibh.</p>
-    <p class="text-primary">Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-    <p class="text-warning">Etiam porta sem malesuada magna mollis euismod.</p>
-    <p class="text-danger">Donec ullamcorper nulla non metus auctor fringilla.</p>
-    <p class="text-success">Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
-    <p class="text-info">Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+   <h2>Análise de Tweets</h2>
+   <p>O <a href="https://twitter.com">Twitter</a> é uma rede social de <em>microblogging</em> com milhões de usuários que compartilham mensagens e notícias em uma velocidade e volumes elevados.</p>
+   <p><small>Tal é o volume que são terabytes de dados trafegados!</small></p>
+   <p>Descobrir informações deste <em>bando de dados</em> é um desafio cada vez maior.</p>
+   <p>O Mr. Crawler realiza a análise <em class="text-info">quantitativa</em> de dados para um determinado termo, auxiliando na descoberta de informações relevantes e indicativos de tendências.</p>
+ </div>
+</div>
+
+<div class="col-lg-4">
+  <h2>Como funciona?</h2>
+  <div class="bs-example">
+    <p>O Mr. Crawler precisa de poucos passos:</p>
+    <ol>
+      <li>
+        <p>Autorize o Mr. Crawler utilizando sua conta do Twitter;</p>
+      </li>
+      <li>
+        <p>Informe o termo para pesquisa (<em>hashtag</em>, palavra ou pessoa);</p>
+      </li>
+      <li>
+        <p>Aguarde alguns instantes enquanto o Mr. Crawler captura e analisa os dados;</p>
+      </li>
+      <li>
+        <p>Visualize os dados analisados em gráficos!</p>
+      </li>
+    </ol>
+
+    {% if not session.logged_in %}
+    <p>Comece <a href="{{ url_for('login') }}">autorizando</a> o Mr. Crawler a realizar a análise!</p>
+    {% endif %}
   </div>
 </div>
 </div>
-
 
 {% else %}
 
@@ -80,9 +110,36 @@
   var $urlapi = $('#urlapi')
   var $message2 = $('#message2');
 
+  var txDivLexica = 0;
+  var avgPalavras = 0;
+
+  var totalTweets = 0;
+
+  var initGraphs = function() {
+    // inicializando gráficos
+    diversidadeLexica();
+    mediaPalavras();
+
+    var categorias = [];
+    var dados = [];
+
+    palavrasMaisComuns(categorias, dados);
+    pessoasMaisComuns(categorias, dados);
+    hashtagsMaisComuns(categorias, dados);
+  }
+
   $(document).ready(function() {
+
+    initGraphs();
+
+    $message2.attr("class", 'label label-success');
+    $message2.text('não iniciada');
+
     $('#capturar').bind('click', function(event) {
       event.preventDefault();
+      totalTweets = 0;
+      initGraphs();
+
       $.getJSON($SCRIPT_ROOT + '/_twitter_lookup', {
         term: $('#filter_term').val(),
         wsid: $wsid.val(),
@@ -102,48 +159,427 @@
 
   ws.onopen = function(){
     $message.attr("class", 'label label-success');
-    $message.text('open');
+    $message.text('aberta');
   };
 
-  ws.onmessage = function(ev){
-   var json = JSON.parse(ev.data);
-   if(json.wsid !== undefined)
-   {
-     $wsid.val(json.wsid);
-     $urlapi.text('http://localhost:8080/api?id=1&value=19&wsid=' + json.wsid);
-   }
-   else
-   {
-    $message.attr("class", 'label label-info');
-    $message.hide();
-    $message.fadeIn("slow");
-    $message.text('recieved message');
+  ws.onmessage = function(ev)
+  {
+    var json = JSON.parse(ev.data);
 
-    $('#' + json.id).hide();
-    $('#' + json.id).fadeIn("slow");
-    $('#' + json.id).text(json.value);
+    if(json.value === -1)
+    {
+      return;
+    }
 
-    var $rowid = $('#row' + json.id);
-    if(json.value > 500){
-      $rowid.attr("class", "error");
+    if(json.wsid !== undefined)
+    {
+      $wsid.val(json.wsid);
     }
-    else if(json.value > 200){
-      $rowid.attr("class", "warning");
+    else
+    {
+      if(json.value === 0)
+      {
+        $message.attr("class", 'label label-success');
+        $message.hide();
+        $message.fadeIn("slow");
+        $message.text('aberta');
+
+        $message2.hide();
+        $message2.attr("class", 'label label-success');
+        $message2.fadeIn("slow");
+        $message2.text("Análise finalizada!");
+      }
+      else
+      {
+        $message.attr("class", 'label label-info');
+        $message.hide();
+        $message.fadeIn("slow");
+        $message.text('recebendo dados');
+
+        palavrasMaisComuns(JSON.parse(json.catWords), JSON.parse(json.datWords));
+        pessoasMaisComuns(JSON.parse(json.catNames), JSON.parse(json.datNames));
+        hashtagsMaisComuns(JSON.parse(json.catHashs), JSON.parse(json.datHashs));
+
+        txDivLexica = JSON.parse(json.lexDivWords);
+        avgPalavras = JSON.parse(json.avgWords);
+
+        $message2.hide();
+        $message2.attr("class", 'label label-info');
+        $message2.fadeIn("slow");
+        $message2.text('Tweets: ' + json.value);
+
+        totalTweets = totalTweets + parseInt(json.value);
+      }
     }
-    else{
-      $rowid.attr("class", "");
-    }
-  }
-};
+  };
 
 ws.onclose = function(ev){
   $message.attr("class", 'label label-important');
-  $message.text('closed');
+  $message.text('fechada');
 };
 
 ws.onerror = function(ev){
   $message.attr("class", 'label label-warning');
-  $message.text('error occurred');
+  $message.text('erro encontrado');
+};
+
+var diversidadeLexica = function () {
+
+    $('#containerDiversidade').highcharts({
+
+      chart: {
+          type: 'gauge',
+          plotBackgroundColor: null,
+          plotBackgroundImage: null,
+          plotBorderWidth: 0,
+          plotShadow: false
+      },
+
+      title: {
+          text: ''
+      },
+
+      pane: {
+          startAngle: -150,
+          endAngle: 150,
+          background: [{
+              backgroundColor: {
+                  linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                  stops: [
+                      [0, '#FFF'],
+                      [1, '#333']
+                  ]
+              },
+              borderWidth: 0,
+              outerRadius: '109%'
+          }, {
+              backgroundColor: {
+                  linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                  stops: [
+                      [0, '#333'],
+                      [1, '#FFF']
+                  ]
+              },
+              borderWidth: 1,
+              outerRadius: '107%'
+          }, {
+              // default background
+          }, {
+              backgroundColor: '#DDD',
+              borderWidth: 0,
+              outerRadius: '105%',
+              innerRadius: '103%'
+          }]
+      },
+
+      // the value axis
+      yAxis: {
+          min: 0,
+          max: 100,
+
+          minorTickInterval: 'auto',
+          minorTickWidth: 1,
+          minorTickLength: 10,
+          minorTickPosition: 'inside',
+          minorTickColor: '#666',
+
+          tickPixelInterval: 30,
+          tickWidth: 2,
+          tickPosition: 'inside',
+          tickLength: 10,
+          tickColor: '#666',
+          labels: {
+              step: 2,
+              rotation: 'auto'
+          },
+          title: {
+              text: 'Diversidade Léxica (%)'
+          },
+          plotBands: [{
+              from: 0,
+              to: 60,
+              color: '#55BF3B' // green
+          }, {
+              from: 60,
+              to: 80,
+              color: '#DDDF0D' // yellow
+          }, {
+              from: 80,
+              to: 100,
+              color: '#DF5353' // red
+          }]
+      },
+
+      series: [{
+          name: 'Taxa',
+          data: [0],
+          tooltip: {
+              valueSuffix: ' %'
+          }
+      }]
+
+  },
+  // Add some life
+  function (chart) {
+    if (!chart.renderer.forExport) {
+        setInterval(function () {
+            var point = chart.series[0].points[0];
+            point.update(txDivLexica);
+        }, 1000);
+    }
+  });
+};
+
+
+var mediaPalavras = function () {
+
+    $('#containerMedia').highcharts({
+
+      chart: {
+          type: 'gauge',
+          plotBackgroundColor: null,
+          plotBackgroundImage: null,
+          plotBorderWidth: 0,
+          plotShadow: false
+      },
+
+      title: {
+          text: ''
+      },
+
+      pane: {
+          startAngle: -150,
+          endAngle: 150,
+          background: [{
+              backgroundColor: {
+                  linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                  stops: [
+                      [0, '#FFF'],
+                      [1, '#333']
+                  ]
+              },
+              borderWidth: 0,
+              outerRadius: '109%'
+          }, {
+              backgroundColor: {
+                  linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                  stops: [
+                      [0, '#333'],
+                      [1, '#FFF']
+                  ]
+              },
+              borderWidth: 1,
+              outerRadius: '107%'
+          }, {
+              // default background
+          }, {
+              backgroundColor: '#DDD',
+              borderWidth: 0,
+              outerRadius: '105%',
+              innerRadius: '103%'
+          }]
+      },
+
+      // the value axis
+      yAxis: {
+          min: 0,
+          max: 100,
+
+          minorTickInterval: 'auto',
+          minorTickWidth: 1,
+          minorTickLength: 10,
+          minorTickPosition: 'inside',
+          minorTickColor: '#666',
+
+          tickPixelInterval: 30,
+          tickWidth: 2,
+          tickPosition: 'inside',
+          tickLength: 10,
+          tickColor: '#666',
+          labels: {
+              step: 2,
+              rotation: 'auto'
+          },
+          title: {
+              text: 'Média de Palavras por tweet'
+          },
+          plotBands: [{
+              from: 0,
+              to: 60,
+              color: '#55BF3B' // green
+          }, {
+              from: 60,
+              to: 80,
+              color: '#DDDF0D' // yellow
+          }, {
+              from: 80,
+              to: 100,
+              color: '#DF5353' // red
+          }]
+      },
+
+      series: [{
+          name: 'Média',
+          data: [0],
+          tooltip: {
+              valueSuffix: ' %'
+          }
+      }]
+
+  },
+  // Add some life
+  function (chart) {
+    if (!chart.renderer.forExport) {
+        setInterval(function () {
+            var point = chart.series[0].points[0];
+            point.update(avgPalavras);
+        }, 1000);
+    }
+  });
+};
+
+var palavrasMaisComuns =  function (categorias, dados) {
+  $('#containerPalavrasComuns').highcharts({
+      chart: {
+          type: 'bar'
+      },
+      title: {
+          text: ''
+      },
+
+      xAxis: {
+          categories: categorias,
+          title: {
+              text: null
+          }
+      },
+      yAxis: {
+          min: 0,
+          title: {
+              text: 'Quantidade de tweets',
+              align: 'high'
+          },
+          labels: {
+              overflow: 'justify'
+          }
+      },
+      tooltip: {
+          valueSuffix: ' tweets'
+      },
+      plotOptions: {
+          bar: {
+              dataLabels: {
+                  enabled: true
+              }
+          }
+      },
+      legend: {
+          enabled: false
+      },
+      credits: {
+          enabled: false
+      },
+      series: [{
+          name: 'Presente em',
+          data: dados
+      }]
+  });
+};
+
+var pessoasMaisComuns = function (categorias, dados) {
+  $('#containerPessoasComuns').highcharts({
+      chart: {
+          type: 'bar'
+      },
+      title: {
+          text: ''
+      },
+
+      xAxis: {
+          categories: categorias,
+          title: {
+              text: null
+          }
+      },
+      yAxis: {
+          min: 0,
+          title: {
+              text: 'Quantidade de tweets',
+              align: 'high'
+          },
+          labels: {
+              overflow: 'justify'
+          }
+      },
+      tooltip: {
+          valueSuffix: ' tweets'
+      },
+      plotOptions: {
+          bar: {
+              dataLabels: {
+                  enabled: true
+              }
+          }
+      },
+      legend: {
+          enabled: false
+      },
+      credits: {
+          enabled: false
+      },
+      series: [{
+          name: 'Presente em',
+          data: dados
+      }]
+  });
+};
+
+var hashtagsMaisComuns = function (categorias, dados) {
+  $('#containerHashtagsComuns').highcharts({
+      chart: {
+          type: 'bar'
+      },
+      title: {
+          text: ''
+      },
+
+      xAxis: {
+          categories: categorias,
+          title: {
+              text: null
+          }
+      },
+      yAxis: {
+          min: 0,
+          title: {
+              text: 'Quantidade de tweets',
+              align: 'high'
+          },
+          labels: {
+              overflow: 'justify'
+          }
+      },
+      tooltip: {
+          valueSuffix: ' tweets'
+      },
+      plotOptions: {
+          bar: {
+              dataLabels: {
+                  enabled: true
+              }
+          }
+      },
+      legend: {
+          enabled: false
+      },
+      credits: {
+          enabled: false
+      },
+      series: [{
+          name: 'Presente em',
+          data: dados
+      }]
+  });
 };
 
 </script>
@@ -158,11 +594,145 @@ ws.onerror = function(ev){
 <p><a href=# id=calculate>calculate server side</a>
 -->
 
-<h1>tornado WebSocket example</h1>
-<hr>
-WebSocket status : <span id="message"></span>
-<hr>
-Pesquisa status : <span id="message2"></span>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="bs-example">
+      <h2>Analisar <em>Tweets</em></h2>
+      <p>Agora que o Mr. Crawler está autorizado, informe um termo para iniciar a análise.</p>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="col-lg-8">
+    <div class="well">
+      <form class="bs-example form-horizontal" action="" method=post>
+
+        <div class="form-group">
+          <label for="inputPassword" class="col-lg-2 control-label">Termo de Busca</label>
+          <div class="col-lg-10">
+            <input type="text" class="form-control" id="filter_term" placeholder="Termo de Busca" name=filter_term>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="search_type" class="col-lg-2 control-label">Tipo de Busca</label>
+          <div class="col-lg-10">
+            <select id="search_type" class="form-control">
+              <!--<option value="twitter_stream">Tempo Real (Stream)</option>-->
+              <option value="twitter_search">Base histórica (Search)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-lg-10 col-lg-offset-2">
+            <button type="submit" class="btn btn-primary" id="capturar">Iniciar</button>
+          </div>
+        </div>
+      </form>
+
+      {% if error %}<div class="alert alert-danger"><p class=error><strong>Ooops!</strong> {{ error }}</div>{% endif %}
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="bs-example">
+      <p>A pesquisa pode ser realizada por: </p>
+      <ul>
+        <li><p>um <span class="text-danger">hashtag</span> (por ex.: <em class="text-info">#FechadoComOCruzeiro</em>)</p></li>
+        <li><p>uma <span class="text-warning">pessoa</span> (por ex.: <em class="text-info">@eryckson</em>)</p></li>
+        <li><p>ou qualquer outro <span class="text-success">texto livre</span> (por ex.: <em class="text-info">bccendo senac</em>)</p></li>
+      </ul>
+      <p>Basta que esteja presente na mensagem enviada (<em>tweet</em>).</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="bs-example">
+      <h4>Situação da Análise</h4>
+      <p><small>Este quadro exibe controladores de estado da análise que está sendo realizada.</small></p>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="bs-example">
+            <p>Status da conexão:</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="bs-example">
+            <p><span id="message"></span></p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="bs-example">
+            <p>Status da pesquisa:</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="bs-example">
+            <p><span id="message2"></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="bs-example">
+      <h4>Diversidade léxica</h4>
+      <p><small><strong>Tendência:</strong> Quanto maior este índice, maior domínio do tema discutido.</small></p>
+      <div id="containerDiversidade"></div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="bs-example">
+      <h4>Média de palavras por <em>tweet</em></h4>
+      <p><small><strong>Tendência:</strong> Quando menor este índice, maior número de <em>retweets</em>.</small></p>
+      <div id="containerMedia"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="bs-example">
+      <h4>Palavras mais comuns</h4>
+      <p><small><strong>Tendência:</strong> Demonstra quais palavras são mais utilizada para o tema.</small></p>
+      <div id="containerPalavrasComuns"></div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="bs-example">
+      <h4>Pessoas mais comuns</h4>
+      <p><small><strong>Tendência:</strong> Demonstra quais pessoas são mais citada no tema.</small></p>
+      <div id="containerPessoasComuns"></div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="bs-example">
+      <h4>Hashtags mais comuns</h4>
+      <p><small><strong>Tendência:</strong> Demonstra quais <em>hashtags</em> (atalhos) são mais citados para o tema.</small></p>
+      <div id="containerHashtagsComuns"></div>
+    </div>
+  </div>
+</div>
+
+<!--
 <hr>
 <h3>The following table shows values by using WebSocket</h3>
 
@@ -180,49 +750,10 @@ Pesquisa status : <span id="message2"></span>
     <td> 3 </td><td> id 3 </td><td id="3"> 0 </td>
   </tr>
 </table>
-<input type="hidden" id="wsid" />
-
 <span id="urlapi"></span>
+-->
 
-<div class="row">
- <div class="col-lg-12">
-  <div class="page-header">
-   <h2 id="forms">Analisar Tweets</h2>
- </div>
-</div>
-</div>
-
-<div class="row">
- <div class="col-lg-12">
-  <div class="well">
-   <form class="bs-example form-horizontal" action="" method=post>
-    <div class="form-group">
-     <label for="inputPassword" class="col-lg-2 control-label">Termo de Busca</label>
-     <div class="col-lg-10">
-      <input type="text" class="form-control" id="filter_term" placeholder="Termo de Busca" name=filter_term>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="search_type" class="col-lg-2 control-label">Tipo de Busca</label>
-      <div class="col-lg-10">
-        <select id="search_type" class="form-control">
-          <option value="twitter_stream">Tempo Real (Stream)</option>
-          <option value="twitter_search">Base histórica (Search)</option>
-        </select>
-      </div>
-  </div>
-
-  <div class="form-group">
-   <div class="col-lg-10 col-lg-offset-2">
-    <button type="submit" class="btn btn-primary" id="capturar">Capturar</button>
-  </div>
-</div>
-</form>
-{% if error %}<div class="alert alert-danger"><p class=error><strong>Ooops!</strong> {{ error }}</div>{% endif %}
-</div>
-</div>
-</div>
+<input type="hidden" id="wsid" />
 
 
 {% endif %}

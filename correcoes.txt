@@ -1,0 +1,7 @@
+- escapar stop words
+- gravar resultado da análise quantitativa
+- exibir gráficos com resultado (em tempo real)
+-- barra
+-- coluna
+-- pizza
+-- linha (alguma coisa em tempo...)

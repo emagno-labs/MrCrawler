@@ -101,23 +101,31 @@ class Tweet(Base):
    # many-to-one relationships
    tweet_find_out = relationship("TweetFindOut", backref=backref("tweets", order_by=id))
 
-# class Analyze(Base):
-#    '''
-#    Esta classe armazena as análises realizadas sobre uma pesquisa (TweetFindOut)
-#    '''
-#    __tablename__ = 'analyzes'
+class Analyze(Base):
+   '''
+   Esta classe armazena as análises realizadas sobre uma pesquisa (TweetFindOut)
+   '''
+   __tablename__ = 'analyzes'
 
-#    id = Column(Integer, primary_key=True)
-#    term = Column(String(100))
-#    search_type = Column(String(30))
-#    max_tweets = Column(Integer)
-#    created = Column(DateTime, default=datetime.now)
+   id = Column(Integer, primary_key=True)
+   type = Column(String(50))
+   label = Column(Text)
+   value = Column(Text)
+   created = Column(DateTime, default=datetime.now)
+   tweet_counter = Column(Integer)
 
-#    # foreign Keys
-#    tweet_find_out_id = Column(Integer, ForeignKey("tweets_find_out.id"))
+   # foreign Keys
+   tweet_find_out_id = Column(Integer, ForeignKey("tweets_find_out.id"))
 
-#    # many-to-one relationships
-#    tweet_find_out = relationship("TweetFindOut", backref=backref("analyzes", order_by=id))
+   # many-to-one relationships
+   tweet_find_out = relationship("TweetFindOut", backref=backref("analyzes", order_by=id))
+
+   def __init__(self, type=None, label=None, value=None, tweet_counter=0, tweet_find_out_id=None):
+      self.type = type
+      self.label = label
+      self.value = value
+      self.tweet_counter = tweet_counter
+      self.tweet_find_out_id = tweet_find_out_id
 
 # class Page(Base):
 #    '''

@@ -20,10 +20,19 @@ def das_tretas_vish(batch_tweets):
       pt.align[label], pt.align["Count"] = "l", "r"
       print (pt)
 
-   print ("Diversidade léxica das palavras: %.2f" % lexical_diversity(words))
+   lexDivWords = lexical_diversity(words)
+   avgWords = average_words(tweet_texts)
+
+   mcWords = Counter(words).most_common()[:10]
+   mcNames = Counter(screen_names).most_common()[:10]
+   mcHashs = Counter(hashtags).most_common()[:10]
+
+   print ("Diversidade léxica das palavras: %.2f" % lexDivWords)
    print ("Diversidade léxica dos screen_names: %.2f" % lexical_diversity(screen_names))
    print ("Diversidade léxica das hashtags: %.2f" % lexical_diversity(hashtags))
-   print ("Média de palavras por tweet: %.2f" % average_words(tweet_texts))
+   print ("Média de palavras por tweet: %.2f" % avgWords)
+
+   return mcWords, mcNames, mcHashs, lexDivWords, avgWords
 
 def extract_entities(tweets):
    tweet_texts = [ tweet['text']

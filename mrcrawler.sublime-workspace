@@ -4,6 +4,198 @@
 		"selected_items":
 		[
 			[
+				"tw",
+				"tweet_entities"
+			],
+			[
+				"comm",
+				"common_entities"
+			],
+			[
+				"has",
+				"hashtags"
+			],
+			[
+				"scre",
+				"screen_names"
+			],
+			[
+				"twe",
+				"tweet_texts"
+			],
+			[
+				"com",
+				"common_entities"
+			],
+			[
+				"enti",
+				"entity_threshold"
+			],
+			[
+				"C",
+				"Counter"
+			],
+			[
+				"ent",
+				"entity_type"
+			],
+			[
+				"s",
+				"symbols"
+			],
+			[
+				"url",
+				"urls"
+			],
+			[
+				"symbo",
+				"symbols"
+			],
+			[
+				"Coun",
+				"Count"
+			],
+			[
+				"re",
+				"retweeted_status"
+			],
+			[
+				"ret",
+				"retweets"
+			],
+			[
+				"twee",
+				"tweet"
+			],
+			[
+				"se",
+				"screen_names"
+			],
+			[
+				"twi",
+				"twitter"
+			],
+			[
+				"hash",
+				"hashtags"
+			],
+			[
+				"op",
+				"option	Tag"
+			],
+			[
+				"save",
+				"save_batch_tweets  (function)"
+			],
+			[
+				"k",
+				"kwargs"
+			],
+			[
+				"sea",
+				"search_results"
+			],
+			[
+				"twitter",
+				"twitter_api"
+			],
+			[
+				"oau",
+				"oauth_token_secret"
+			],
+			[
+				"db",
+				"db_session"
+			],
+			[
+				"stream",
+				"twitter_stream"
+			],
+			[
+				"t",
+				"tweet_find_out_id  (variable)"
+			],
+			[
+				"deni",
+				"denied_oauth_token"
+			],
+			[
+				"web",
+				"websocket"
+			],
+			[
+				"pa",
+				"pass"
+			],
+			[
+				"usr",
+				"user_id"
+			],
+			[
+				"Twee",
+				"TweetFindOut"
+			],
+			[
+				"api",
+				"api_version"
+			],
+			[
+				"oa",
+				"oauth_token_secret"
+			],
+			[
+				"CONS",
+				"CONSUMER_SECRET"
+			],
+			[
+				"CON",
+				"CONSUMER_KEY"
+			],
+			[
+				"user_",
+				"user_id"
+			],
+			[
+				"par",
+				"parse_oauth_tokens"
+			],
+			[
+				"b",
+				"browser"
+			],
+			[
+				"o",
+				"oauth_token_secret  (variable)"
+			],
+			[
+				"oauth",
+				"oauth_token"
+			],
+			[
+				"open_new",
+				"open_new_tab  (function)"
+			],
+			[
+				"oaut",
+				"oauth_token"
+			],
+			[
+				"__",
+				"__tablename__"
+			],
+			[
+				"session",
+				"session_id"
+			],
+			[
+				"OA",
+				"OAUTH_FILE"
+			],
+			[
+				"_tw",
+				"_twitter_oauth"
+			],
+			[
 				"pyt",
 				"python"
 			]
@@ -12,26 +204,26 @@
 	"buffers":
 	[
 		{
-			"file": "mrcrawler.sublime-project",
+			"file": "core/twitter/twitter_lookup.py",
 			"settings":
 			{
-				"buffer_size": 584,
+				"buffer_size": 3215,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "webapp/__init__.py",
+			"file": "correcoes.txt",
 			"settings":
 			{
-				"buffer_size": 2810,
+				"buffer_size": 176,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "tt.py",
+			"file": "MrCrawler.py",
 			"settings":
 			{
-				"buffer_size": 4236,
+				"buffer_size": 347,
 				"line_ending": "Unix"
 			}
 		}
@@ -39,9 +231,13 @@
 	"build_system": "Run MrCrawler",
 	"command_palette":
 	{
-		"height": 375.0,
+		"height": 269.0,
 		"selected_items":
 		[
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
 			[
 				"pa",
 				"Package Control: Install Package"
@@ -96,25 +292,79 @@
 	},
 	"file_history":
 	[
-		"/Users/eryckson/Documents/dev/github/MrCrawler/teste.py",
-		"/Users/eryckson/Library/Application Support/Sublime Text 3/Packages/User/SublimeREPL.sublime-settings",
+		"/Users/eryckson/Documents/senac/bcc/2.P/OAC/exercicios/08.Interrupções",
+		"/Users/eryckson/Documents/senac/bcc/2.P/OAC/exercicios/01.Computadores mais rápidos",
+		"/Users/eryckson/Documents/senac/bcc/2.P/OAC/exercicios/02.Simuladores - CPU",
+		"/Users/eryckson/Documents/senac/bcc/2.P/OAC/exercicios/03.CPU didática",
+		"/Users/eryckson/Documents/senac/bcc/2.P/OAC/exercicios/04.Exercícios de Representação Binária",
+		"/Users/eryckson/Documents/senac/bcc/2.P/OAC/exercicios/05.Representação Binária - Caracteres",
+		"/Users/eryckson/Documents/senac/bcc/2.P/OAC/exercicios/06.Projeto Lógico de uma CPU simples",
+		"/Users/eryckson/Documents/senac/bcc/2.P/OAC/exercicios/07.Aula 02:09- Circuito MUX, DEMUX, CODER e DECODER",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/twitter/twitter_lookup.py",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/webapp/__init__.py",
+		"/Users/eryckson/Documents/Priorização projetos",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/webapp/views.py",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/twitter/twitter_search.py",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/twitter/utils.py",
+		"/Users/eryckson/Documents/dev/github/d3-cloud/examples/simple.html",
+		"/Users/eryckson/Documents/dev/local/d3/word-cloud.html",
+		"/Users/eryckson/Documents/dev/local/d3/mrcloud.html",
+		"/Users/eryckson/Documents/dev/local/d3/mrcloud.js",
+		"/Users/eryckson/Documents/dev/local/d3/cloud.js",
+		"/Users/eryckson/Documents/dev/local/d3/tweets.txt",
+		"/Users/eryckson/Documents/dev/local/d3/cloud.css",
+		"/Users/eryckson/Documents/dev/local/d3/d3.layout.cloud.js",
 		"/Users/eryckson/Documents/dev/github/MrCrawler/mrcrawler.sublime-project",
-		"/Users/eryckson/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
-		"/Users/eryckson/Documents/dev/github/MrCrawler/twitter_oauth",
+		"/Users/eryckson/Downloads/D_MEGA.HTML",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/data/orm/README.md",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/data/db/tweets.sql",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/data/db/tweets_find_out.sql",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/data/db/users.sql",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/data/db/README.md",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/data/README.md",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/README.md",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/README.md",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/webapp/oauth_dance_views.py",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/twitter/twitter_oauth_dance.py",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/twitter/twitter_stream.py",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/webapp/templates/index.html",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/data/orm/models.py",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/teste.py",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/webapp/templates/login.html",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/webapp/templates/busca.html",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/webapp/templates/layout.html",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/webapp/templates/_formhelpers.html",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/webapp/templates/base.html",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/crawler/twitter_search.py",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/crawler/twitter_stream.py",
 		"/Users/eryckson/Documents/dev/github/MrCrawler/core/crawler/crawl_twitter.py",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/crawler/twitter_lookup.py",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/crawler/twitter_oauth_dance.py",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/crawler/__init__.py",
+		"/Users/eryckson/Documents/dev/github/flask-oauth/example/tweet.py",
+		"/Users/eryckson/Documents/dev/github/flask-oauth/example/templates/index.html",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/oa.py",
+		"/Users/eryckson/Library/Application Support/Sublime Text 3/Packages/SideBarEnhancements/CHANGELOG",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/MrCrawler.py",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/twitter_oauth",
+		"/Users/eryckson/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/crawler/twitter_stream",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/core/crawler/twitter_search",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/.gitignore",
+		"/Users/eryckson/Documents/dev/github/MrCrawler/tt.py",
+		"/Users/eryckson/Library/Application Support/Sublime Text 3/Packages/User/SublimeREPL.sublime-settings",
 		"/Users/eryckson/Documents/Priorização projetos",
 		"/Users/eryckson/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
-		"/Users/eryckson/Documents/dev/github/MrCrawler/MrCrawler.py",
 		"/Users/eryckson/Library/Application Support/Sublime Text 3/Packages/SublimeREPL/SublimeREPL.sublime-settings",
 		"/Users/eryckson/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap"
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 37.0
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 95.0,
 		"where_history":
 		[
 		]
@@ -124,6 +374,28 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"progress",
+			"load",
+			"form",
+			"click",
+			"#go",
+			"go\"",
+			"\"",
+			"“",
+			"”",
+			"\"",
+			"urlapi",
+			"MAX_SEARCH",
+			"webbrowser",
+			"datetime",
+			"uuid",
+			"webbrowser",
+			"Registrar",
+			"user",
+			"TWITTER_API_URL_AUTHORIZE",
+			"oauth_callback",
+			"ipynb_oauth_dance",
+			"read_tok"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -131,6 +403,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			""
 		],
 		"reverse": false,
 		"show_context": true,
@@ -141,24 +414,24 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "mrcrawler.sublime-project",
+					"file": "core/twitter/twitter_lookup.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 584,
+						"buffer_size": 3215,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								566,
-								566
+								289,
+								289
 							]
 						],
 						"settings":
@@ -267,7 +540,7 @@
 							},
 							"codeintel_tooltips": "popup",
 							"sublime_auto_complete": true,
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"syntax": "Packages/Python/Python.tmLanguage",
 							"tab_size": 3,
 							"translate_tabs_to_spaces": true
 						},
@@ -279,19 +552,19 @@
 				},
 				{
 					"buffer": 1,
-					"file": "webapp/__init__.py",
+					"file": "correcoes.txt",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2810,
+						"buffer_size": 176,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								467,
-								467
+								174,
+								174
 							]
 						],
 						"settings":
@@ -400,145 +673,37 @@
 							},
 							"codeintel_tooltips": "popup",
 							"sublime_auto_complete": true,
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 3,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 502.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "tt.py",
-					"semi_transient": false,
+					"file": "MrCrawler.py",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 4236,
+						"buffer_size": 347,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3237,
-								3237
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 3,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Python/Python.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1223.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -552,7 +717,7 @@
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 33.0
 	},
 	"layout":
 	{
@@ -584,7 +749,7 @@
 	"project": "mrcrawler.sublime-project",
 	"replace":
 	{
-		"height": 42.0
+		"height": 66.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -593,8 +758,12 @@
 		"selected_items":
 		[
 			[
+				"cra",
+				"core/crawler/crawl_twitter.py"
+			],
+			[
 				"",
-				"~/Documents/Priorização projetos"
+				".gitignore"
 			]
 		],
 		"width": 0.0
@@ -609,11 +778,11 @@
 	},
 	"select_symbol":
 	{
-		"height": 0.0,
+		"height": 375.0,
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 378.0
 	},
 	"settings":
 	{
@@ -622,7 +791,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 150.0,
+	"side_bar_width": 225.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

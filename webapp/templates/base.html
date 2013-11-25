@@ -29,13 +29,14 @@
    <div class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-           <a href="{{ url_for('index') }}" class="navbar-brand">Mr. Crawler</a>
+           <a href="{{ url_for('index') }}" class="navbar-brand">Mr. Crawler - Análise de Tweets</a>
           <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
         </div>
+        <!--
         <div class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav">
             <li class="dropdown">
@@ -58,17 +59,20 @@
             </li>
           </ul>
 
-         {% block navbar_right %}
+
+
+        </div>
+        -->
+
+        {% block navbar_right %}
          <ul class="nav navbar-nav navbar-right">
             {% if not session.logged_in %}
-            <li><a href="{{ url_for('login') }}">Entrar</a></li>
+            <!--<li><a href="{{ url_for('login') }}">Entrar</a></li>-->
             {% else %}
             <li><a href="{{ url_for('logout') }}">{{ session.user_name }} [Sair]</a></li>
             {% endif %}
          </ul>
          {% endblock %}
-
-        </div>
       </div>
     </div>
    {% endblock %}
@@ -87,11 +91,11 @@
             <div class="row">
                <div class="col-lg-12">
                   <ul class="list-unstyled">
-                     <li class="pull-right"><a href="#top">Back to top</a></li>
-                     <li><a href="#">Facebook</a></li>
+                     <li class="pull-right"><a href="#top">Topo</a></li>
+                     <!--<li><a href="#">Facebook</a></li>-->
                      <li><a href="#">Twitter</a></li>
-                     <li><a href="#">GitHub</a></li>
-                     <li><a href="../help/#api">API</a></li>
+                     <li><a href="https://github.com/eryckson/MrCrawler">GitHub</a></li>
+                     <!--<li><a href="../help/#api">API</a></li>-->
                   </ul>
                   <!--<p>Construído por <a href="http://www.eryckson.com">Eryckson Magno</a>. Entre em contato <a href="mailto:eryckson@me.com">eryckson@me.com</a>.</p>
                   <p>Código licenciado com  <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License v2.0</a>.</p>
@@ -110,6 +114,9 @@
 
       <script type=text/javascript src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
       <script type=text/javascript src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+      <script type=text/javascript src="{{ url_for('static', filename='js/highcharts.js') }}"></script>
+      <script type=text/javascript src="{{ url_for('static', filename='js/highcharts-more.js') }}"></script>
+
       <script type=text/javascript>
          $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
       </script>

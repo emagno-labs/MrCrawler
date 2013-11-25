@@ -15,6 +15,9 @@ from tornado import web
 import json
 import uuid
 
+from core.data.orm.models import Analyze
+from core.data.orm.database import db_session
+
 # configuracao da aplicacao Flask. TODO externalizar em um arquivo próprio
 SECRET_KEY = 'devkey' # para a session
 USERNAME = 'admin'
@@ -81,7 +84,60 @@ class ApiHandler(RequestHandler):
       id = self.get_argument("id")
       value = self.get_argument("value")
 
-      data = {"id": id, "value" : value}
+      print(value)
+
+      if value == "-1":
+         data = {
+            "id": id,
+            "value" : -1,
+            "catWords": 0,
+            "datWords": 0,
+            "catNames": 0,
+            "datNames": 0,
+            "catHashs": 0,
+            "datHashs": 0,
+            "lexDivWords": 0,
+            "avgWords": 0
+         }
+      elif value == "0":
+         data = {
+            "id": id,
+            "value" : 0,
+            "catWords": 0,
+            "datWords": 0,
+            "catNames": 0,
+            "datNames": 0,
+            "catHashs": 0,
+            "datHashs": 0,
+            "lexDivWords": 0,
+            "avgWords": 0
+         }
+      else:
+         mcWordsId = self.get_argument("anl_mcWords")
+         mcNamesId = self.get_argument("anl_mcNames")
+         mcHashsId = self.get_argument("anl_mcHashs")
+         lexDivWordsId = self.get_argument("anl_lexDivWords")
+         avgWordsId = self.get_argument("anl_avgWords")
+
+         anl_mcWords = Analyze.query.filter(Analyze.id == mcWordsId).first()
+         anl_mcNames = Analyze.query.filter(Analyze.id == mcNamesId).first()
+         anl_mcHashs = Analyze.query.filter(Analyze.id == mcHashsId).first()
+         anl_lexDivWords = Analyze.query.filter(Analyze.id == lexDivWordsId).first()
+         anl_avgWords = Analyze.query.filter(Analyze.id == avgWordsId).first()
+
+         data = {
+            "id": id,
+            "value" : value,
+            "catWords": anl_mcWords.label,
+            "datWords": anl_mcWords.value,
+            "catNames": anl_mcNames.label,
+            "datNames": anl_mcNames.value,
+            "catHashs": anl_mcHashs.label,
+            "datHashs": anl_mcHashs.value,
+            "lexDivWords": anl_lexDivWords.value,
+            "avgWords": anl_avgWords.value
+         }
+
       data = json.dumps(data)
 
       for c in clientes:
